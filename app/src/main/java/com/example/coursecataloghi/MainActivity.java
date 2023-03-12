@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-
+    //Steinunn var hér
     EditText username, password;
     Button loginbutton;
 
