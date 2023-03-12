@@ -26,9 +26,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Græja hvað gerist þegar ýtt er á login
+                String uName = username.getText().toString();
+                String pwd = password.getText().toString();
+                boolean loggingIN = logIn(uName, pwd);
             }
         });
 
 
+    }
+
+    public boolean logIn(String userName, String pwd){
+        boolean acceptance = false;
+
+
+        return acceptance;
     }
 }
