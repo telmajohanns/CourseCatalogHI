@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
                 boolean loggingIN = logIn(uName, pwd);
             }
         });
-
-
     }
 
     public boolean logIn(String userName, String pwd){
