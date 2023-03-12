@@ -8,8 +8,7 @@ public class User {
     private String password;
     private ArrayList<Course> favorites;
 
-    public User(String userID, String username, String password) {
-        this.userID = userID;
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
