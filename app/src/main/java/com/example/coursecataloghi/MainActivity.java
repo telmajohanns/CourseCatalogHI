@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     //Steinunn var hér
+    //Hebbi líka
     EditText username, password;
     Button loginbutton;
 
