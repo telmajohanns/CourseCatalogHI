@@ -4,16 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="@drawable/bluewaves"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/username"
-        android:inputType="text"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/signInText"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        android:hint="Sign in"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:inputType="text"
         android:hint="@string/username"
-        android:layout_marginTop="50dp"/>
+        android:layout_below="@id/signInText"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        android:background="@color/gray"
+        android:drawableLeft="@drawable/baseline_person_24"
+        android:drawablePadding="20dp"/>
     <EditText
         android:id="@+id/password"
         android:inputType="textPassword"
@@ -25,19 +39,18 @@
 
     <Button
         android:id="@+id/btnlogin"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/password"/>
+        android:layout_below="@id/password"
+        android:text="@string/login" />
+
     <Button
         android:id="@+id/btnsignup"
-        android:layout_width="match_parent"
+        android:layout_width="151dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btnlogin"
         android:text="@string/sign_up"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/btnlogin"/>
-
+        android:translationX="50dp" />
 
 
 </RelativeLayout>
