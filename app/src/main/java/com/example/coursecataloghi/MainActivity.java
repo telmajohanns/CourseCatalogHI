@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     //Steinunn var hér
     //Hebbi líka
     EditText username, password;
-    Button loginbutton, signUpButton;
+    Button loginButton, signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
-        loginbutton = (Button) findViewById(R.id.btnlogin);
-        //signUpButton = (Button) findViewById(R.id.btnsignup);
+        loginButton = (Button) findViewById(R.id.btnlogin);
+        signUpButton = (Button) findViewById(R.id.btnsignup);
 
         signUpButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loginbutton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Græja hvað gerist þegar ýtt er á login
