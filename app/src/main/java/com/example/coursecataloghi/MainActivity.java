@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import Entities.Data;
+import Entities.User;
+
 public class MainActivity extends AppCompatActivity {
     //Steinunn var hér
     //Hebbi líka
@@ -40,15 +43,24 @@ public class MainActivity extends AppCompatActivity {
                 if(loggingIN){
                     loggedIn(uName);
                 }
+                else {
+                    //Make toast
+                }
             }
         });
     }
 
     private boolean logIn(String userName, String pwd){
-        boolean acceptance = true;
+        Data data = Data.getInstance();
+        for (User u: data.getUsers()) {
+            if (userName.equals(u.getUsername())) {
+                if (pwd.equals(u.getPassword())) {
+                    return true;
+                }
+            }
+        }
 
-
-        return acceptance;
+        return false;
     }
 
     private void loggedIn(String userName){
