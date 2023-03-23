@@ -10,4 +10,13 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="confirm_password">Confirm password</string>
     <string name="sign_in">Sign in</string>
+    <string name="filter">Filter</string>
+    <string name="semester">Semester</string>
+    <string name="teacher_or_course">Teacher or Course</string>
+    <string name="filter_course_catalog">Filter Course Catalog</string>
+    <string name="my_favorites">My favorites</string>
+    <string name="spring">Spring</string>
+    <string name="summer">Summer</string>
+    <string name="fall">Fall</string>
+    <string name="confirm">Confirm</string>
 </resources>

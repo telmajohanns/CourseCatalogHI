@@ -1,7 +1,9 @@
 package com.example.coursecataloghi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -26,11 +28,19 @@ public class CourseCatalogActivity extends AppCompatActivity {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableTitleList;
     HashMap<String, List<String>> expandableDetailList;
+    Button filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_catalog);
+        filter = (Button) findViewById(R.id.filter_catalog);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterCatalog();
+            }
+        });
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
         InputStream inputStream = getResources().openRawResource(R.raw.course_data);
         try {
@@ -74,5 +84,9 @@ public class CourseCatalogActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    private void filterCatalog() {
+        Intent switchActivityIntent = new Intent(this, FilterActivity.class);
+        startActivity(switchActivityIntent);
     }
 }

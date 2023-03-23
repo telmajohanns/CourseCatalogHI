@@ -16,7 +16,8 @@ import Entities.Course;
 
 public class ExpandableListDataItems {
     public static ArrayList<Course> allCourses = new ArrayList<Course>();
-    private static final String[] headers = {"Acronym: ", "Title: ", "ECTS: ", "Semester: ", "Level: ", "Field: ", "Department: ",
+    private static final String[] headers = {"Acronym: ", "Title: ", "ECTS: ", "Semester: ",
+            "Level: ", "Field: ", "Department: ",
             "Language: ", "Supervising teacher(s): ", "Teachers: ", "Year: ",
             "Is taught: ", "Course ID: ", "Mandatory Prerequisites: ", "Recommended Prerequisites: ",
             "Further details: "};
