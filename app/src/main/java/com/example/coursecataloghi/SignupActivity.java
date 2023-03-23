@@ -44,7 +44,7 @@ public class SignupActivity extends AppCompatActivity {
                     if (pwd.equals(pwdrt)) {
                         data.createUser(uName, pwd);
                         Toast.makeText(SignupActivity.this, "Success, welcome", Toast.LENGTH_SHORT).show();
-                        userCreated();
+                        goBack();
                     }else{
                         Toast.makeText(SignupActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
                         newPassword.getText().clear();
@@ -79,10 +79,5 @@ public class SignupActivity extends AppCompatActivity {
                 return true;
             }
         return false;
-    }
-
-    private void userCreated(){
-        Intent switchActivityIntent = new Intent(this, MainActivity.class);
-        startActivity(switchActivityIntent);
     }
 }
