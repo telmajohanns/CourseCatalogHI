@@ -1,4 +1,4 @@
-package com.example.coursecataloghi;
+package com.example.coursecataloghi.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,17 +10,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
+import com.example.coursecataloghi.Activities.Adapters.CustomizedExpandableListAdapter;
+import com.example.coursecataloghi.Activities.Adapters.ExpandableListDataItems;
+import com.example.coursecataloghi.R;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import Entities.Course;
 
 
 public class CourseCatalogActivity extends AppCompatActivity {

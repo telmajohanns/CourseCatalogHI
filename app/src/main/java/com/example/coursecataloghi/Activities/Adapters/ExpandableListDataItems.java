@@ -1,4 +1,4 @@
-package com.example.coursecataloghi;
+package com.example.coursecataloghi.Activities.Adapters;
 
 import android.content.res.Resources;
 

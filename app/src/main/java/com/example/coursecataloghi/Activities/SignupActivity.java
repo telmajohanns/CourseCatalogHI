@@ -1,4 +1,4 @@
-package com.example.coursecataloghi;
+package com.example.coursecataloghi.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import com.example.coursecataloghi.R;
 
 import Entities.Data;
 import Entities.User;

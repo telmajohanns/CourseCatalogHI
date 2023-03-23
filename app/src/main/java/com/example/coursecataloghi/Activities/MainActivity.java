@@ -1,4 +1,4 @@
-package com.example.coursecataloghi;
+package com.example.coursecataloghi.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,12 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coursecataloghi.R;
+
 import Entities.Data;
 import Entities.User;
 
 public class MainActivity extends AppCompatActivity {
-    //Steinunn var hér
-    //Hebbi líka
+
     EditText username, password;
     Button loginButton;
 
@@ -48,18 +49,19 @@ public class MainActivity extends AppCompatActivity {
                 //Græja hvað gerist þegar ýtt er á login
                 String uName = username.getText().toString();
                 String pwd = password.getText().toString();
-                boolean loggingIN = logIn(uName, pwd);
-                if(loggingIN){
+                boolean loggingIN = logIn(uName, pwd); //kall á userservice userservice.login(un, pw)....
+                if(loggingIN){ //halda þessu
                     loggedIn();
                 }
                 else {
                     Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                    username.getText().clear();
+                    username.getText().clear(); //halda viðmótshlutum
                     password.getText().clear();
                 }
             }
         });
     }
+
 
     private boolean logIn(String userName, String pwd){
         Data data = Data.getInstance();
