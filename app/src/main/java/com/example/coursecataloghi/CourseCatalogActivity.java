@@ -8,9 +8,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import Entities.Course;
 
 
 public class CourseCatalogActivity extends AppCompatActivity {
@@ -18,24 +26,18 @@ public class CourseCatalogActivity extends AppCompatActivity {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableTitleList;
     HashMap<String, List<String>> expandableDetailList;
-    //ExpandableListView courseCatalogList;
-    //private ExpandableListAdapter adapter;
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_catalog);
-        //courseCatalogList = (ExpandableListView) findViewById(R.id.courseCatalogList);
-        //Þurfum að gera adapter og eitthvað allskonar til að geta sett hluti í listviewið
-
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_catalog);
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
-        expandableDetailList = ExpandableListDataItems.getData();
+        InputStream inputStream = getResources().openRawResource(R.raw.course_data);
+        try {
+            expandableDetailList = ExpandableListDataItems.getData(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         expandableTitleList = new ArrayList<String>(expandableDetailList.keySet());
         expandableListAdapter = new CustomizedExpandableListAdapter(this, expandableTitleList, expandableDetailList);
         expandableListViewExample.setAdapter(expandableListAdapter);
@@ -48,7 +50,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
             }
         });
 
-        // This method is called when the group is collapsed
+        // Fall þegar áfangahóp er lokað/fellt saman
         expandableListViewExample.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
             public void onGroupCollapse(int groupPosition) {
@@ -73,15 +75,4 @@ public class CourseCatalogActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*private ArrayList<Course> createCourseCatalog() {
-        ArrayList<Course> courses = new ArrayList<>();
-        ArrayList<String> titles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            titles.add("TÖL" + String.valueOf(i));
-            Course course = new Course("TÖL" + String.valueOf(i), "Tölvunarfræði " + String.valueOf(i), 6.0, "Vor", "Grunnnám", "VON", "IVT", "IS", "Ebba Þóra", "Steinunn María", "2022-2023", true, "1234", "linkur");
-            courses.add(course);
-        }
-        return courses;
-    }*/
 }
