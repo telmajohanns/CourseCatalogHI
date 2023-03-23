@@ -16,9 +16,9 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
         android:gravity="center"
-        android:hint="Sign in"
+        android:hint="@string/sign_in"
         android:textColorHint="@color/white"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:textStyle="bold"
         android:translationY="50dp" />
 
@@ -32,7 +32,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/gray"
-        android:drawableLeft="@drawable/baseline_person_24"
+        android:drawableStart="@drawable/baseline_person_24"
         android:drawablePadding="20dp"
         android:hint="@string/username"
         android:inputType="text"
@@ -49,7 +49,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/gray"
-        android:drawableLeft="@drawable/baseline_lock_24"
+        android:drawableStart="@drawable/baseline_lock_24"
         android:drawablePadding="20dp"
         android:hint="@string/password"
         android:inputType="textPassword"
@@ -57,24 +57,46 @@
         android:translationY="30dp" />
 
     <Button
+        android:id="@+id/btnlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnlogin"
         android:layout_below="@id/password"
-        android:text="@string/login"
-        android:backgroundTint="@color/blue"
         android:layout_centerHorizontal="true"
-        android:layout_margin="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="@color/blue"
         android:paddingHorizontal="70dp"
         android:paddingVertical="10dp"
-        android:textSize="15dp"/>
+        android:text="@string/login"
+        android:textSize="15dp" />
 
-    <Button
-        android:id="@+id/btnsignup"
-        android:layout_width="151dp"
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnlogin"
-        android:text="@string/sign_up" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/don_t_have_an_account"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/btnsignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:text="@string/sign_up"
+            android:textColor="@color/blue"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import Entities.Data;
@@ -18,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
     //Steinunn var hér
     //Hebbi líka
     EditText username, password;
-    Button loginButton, signUpButton;
+    Button loginButton;
+
+    TextView signUpButton;
     SharedPreferences sharedPref;
 
     @Override
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.btnlogin);
-        signUpButton = (Button) findViewById(R.id.btnsignup);
+        signUpButton = (TextView) findViewById(R.id.btnsignup);
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
 

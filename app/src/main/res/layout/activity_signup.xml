@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:background="@drawable/background"
     tools:context=".SignupActivity">
 
     <EditText
@@ -13,39 +13,79 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/username"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="155dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:drawableLeft="@drawable/baseline_person_24"
+        android:drawablePadding="20dp"
+        android:padding="20dp"
+        android:translationY="30dp"/>
     <EditText
         android:id="@+id/newPassword"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/newUsername"/>
+        android:layout_below="@+id/newUsername"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:drawableLeft="@drawable/baseline_lock_24"
+        android:drawablePadding="20dp"
+        android:padding="20dp"
+        android:translationY="30dp"/>
     <EditText
         android:id="@+id/newRetypePassword"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/retype_password"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/newPassword"/>
+        android:hint="@string/confirm_password"
+        android:layout_below="@+id/newPassword"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray"
+        android:drawableLeft="@drawable/baseline_lock_24"
+        android:drawablePadding="20dp"
+        android:padding="20dp"
+        android:translationY="30dp"
+        />
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/newRetypePassword"
         android:text="@string/sign_up"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/newRetypePassword"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="@color/blue"
+        android:paddingHorizontal="70dp"
+        android:paddingVertical="10dp"
+        android:textSize="15sp"
+        />
 
-    <Button
+
+    <TextView
         android:id="@+id/btnGoBack"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:clickable="true"
         android:text="@string/go_back"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/btnSignUp"/>
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:layout_below="@id/btnSignUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"/>
 
 
 

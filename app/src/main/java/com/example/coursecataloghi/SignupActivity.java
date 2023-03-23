@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileWriter;
@@ -18,7 +19,9 @@ import Entities.User;
 public class SignupActivity extends AppCompatActivity {
 
     EditText newUsername, newPassword, newRetypePassword;
-    Button signupButton, goBackButton;
+    Button signupButton;
+
+    TextView goBackButton;
     Data data;
 
     @Override
@@ -30,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
         newPassword = (EditText) findViewById(R.id.newPassword);
         newRetypePassword = (EditText) findViewById(R.id.newRetypePassword);
         signupButton = (Button) findViewById(R.id.btnSignUp);
-        goBackButton = (Button) findViewById(R.id.btnGoBack);
+        goBackButton = (TextView) findViewById(R.id.btnGoBack);
         data = Data.getInstance();
 
         signupButton.setOnClickListener(new View.OnClickListener() {
