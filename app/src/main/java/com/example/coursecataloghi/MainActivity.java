@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import Entities.Data;
 import Entities.User;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     loggedIn(uName);
                 }
                 else {
-                    //Make toast
+                    Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
