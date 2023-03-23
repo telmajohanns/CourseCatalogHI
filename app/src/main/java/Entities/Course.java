@@ -147,7 +147,7 @@ public class Course {
         this.reccomPrereq = reccomPrereq;
     }
 
-    public Course(String acronym, String title, Double ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String hyperlink, String mandatoryPrereq, String reccomPrereq) {
+    public Course(String acronym, String title, Double ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String mandatoryPrereq, String reccomPrereq, String hyperlink) {
         this.acronym = acronym;
         this.title = title;
         this.ects = ects;
@@ -161,9 +161,9 @@ public class Course {
         this.year = year;
         this.isTaught = isTaught;
         this.courseID = courseID;
-        this.hyperlink = hyperlink;
         this.mandatoryPrereq = mandatoryPrereq;
         this.reccomPrereq = reccomPrereq;
+        this.hyperlink = hyperlink;
     }
 
     public Course(String acronym, String title, Double ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String hyperlink) {
