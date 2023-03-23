@@ -2,7 +2,9 @@ package com.example.coursecataloghi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     //Hebbi líka
     EditText username, password;
     Button loginButton, signUpButton;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +30,14 @@ public class MainActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.btnlogin);
         signUpButton = (Button) findViewById(R.id.btnsignup);
+        sharedPref = this.getSharedPreferences(
+                getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
 
-        signUpButton.setOnClickListener(new View.OnClickListener(){
+        /*signUpButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 goToSignUp();
             }
-        });
+        });*/
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         for (User u: data.getUsers()) {
             if (userName.equals(u.getUsername())) {
                 if (pwd.equals(u.getPassword())) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.username), userName);
+                    editor.apply();
                     return true;
                 }
             }
@@ -66,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void loggedIn(String userName){
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
-        switchActivityIntent.putExtra("user", userName);
         startActivity(switchActivityIntent);
     }
 
