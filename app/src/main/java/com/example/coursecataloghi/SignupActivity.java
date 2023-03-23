@@ -7,16 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
+import Entities.Data;
 import Entities.User;
 
 public class SignupActivity extends AppCompatActivity {
 
     EditText newUsername, newPassword, newRetypePassword;
     Button signupButton, goBackButton;
+    Data data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +31,31 @@ public class SignupActivity extends AppCompatActivity {
         newRetypePassword = (EditText) findViewById(R.id.newRetypePassword);
         signupButton = (Button) findViewById(R.id.btnSignUp);
         goBackButton = (Button) findViewById(R.id.btnGoBack);
+        data = Data.getInstance();
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Tékka hvort user sé nú þegar til, ef svo er gefa viðvörun og alls ekki búa hann til
-                User user = new User(newUsername.getText().toString(), newPassword.getText().toString());
-                /*try {
-                    //Reyna að finna leið til að búa til user í txt skrá meðan bakenda og db ruglið er ves
-                    FileWriter fileWriter = new FileWriter("users.txt");
-                    fileWriter.write(user.getUsername() + "," + user.getPassword());
-                    fileWriter.write(System.lineSeparator());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }*/
-
-
+                String uName = newUsername.getText().toString();
+                String pwd = newPassword.getText().toString();
+                String pwdrt = newRetypePassword.getText().toString();
+                boolean userExists = doesUeserExsist(uName);
+                if (!userExists){
+                    if (pwd.equals(pwdrt)) {
+                        data.createUser(uName, pwd);
+                        Toast.makeText(SignupActivity.this, "Success, welcome", Toast.LENGTH_SHORT).show();
+                        userCreated();
+                    }else{
+                        Toast.makeText(SignupActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                        newPassword.getText().clear();
+                        newRetypePassword.getText().clear();
+                    }
+                }else{
+                    Toast.makeText(SignupActivity.this, "Failed, try again", Toast.LENGTH_SHORT).show();
+                    newUsername.getText().clear();
+                    newPassword.getText().clear();
+                    newRetypePassword.getText().clear();
+                }
             }
         });
 
@@ -57,6 +69,19 @@ public class SignupActivity extends AppCompatActivity {
 
     }
     private void goBack(){
+        Intent switchActivityIntent = new Intent(this, MainActivity.class);
+        startActivity(switchActivityIntent);
+    }
+
+    boolean doesUeserExsist(String uName){
+        for (User u: data.getUsers())
+            if(uName.equals(u.getUsername())){
+                return true;
+            }
+        return false;
+    }
+
+    private void userCreated(){
         Intent switchActivityIntent = new Intent(this, MainActivity.class);
         startActivity(switchActivityIntent);
     }

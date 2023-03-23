@@ -19,4 +19,8 @@ public class Data {
     public ArrayList<User> getUsers() {
         return users;
     }
+
+    public void createUser(String username, String password){
+        users.add(new User(username,password));
+    }
 }

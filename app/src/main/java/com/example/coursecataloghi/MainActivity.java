@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
 
-        /*signUpButton.setOnClickListener(new View.OnClickListener(){
+        signUpButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 goToSignUp();
             }
-        });*/
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
                 String pwd = password.getText().toString();
                 boolean loggingIN = logIn(uName, pwd);
                 if(loggingIN){
-                    loggedIn(uName);
+                    loggedIn();
                 }
                 else {
                     Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                    username.getText().clear();
+                    password.getText().clear();
                 }
             }
         });
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void loggedIn(String userName){
+    private void loggedIn(){
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
     }
