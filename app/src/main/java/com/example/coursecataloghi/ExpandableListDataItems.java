@@ -31,6 +31,15 @@ public class ExpandableListDataItems {
                 Course course;
                 List<String> courseDetails = new ArrayList<String>();
                 String[] row = line.split(";");
+                if (row[3].equals("V")) {
+                    row[3] = "Vor";
+                }
+                else if (row[3].equals("H")) {
+                    row[3] = "Haust";
+                }
+                else if (row[3].equals("S")) {
+                    row[3] = "Sumar";
+                }
                 for (int i = 2; i<row.length; i++) {
                     if (!row[i].equals("BLANK")) {
                         courseDetails.add(headers[i]+row[i]);
