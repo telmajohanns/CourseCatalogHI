@@ -12,12 +12,23 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignTop="@id/filter_catalog"
+        android:layout_alignBottom="@id/logout_button"/>
 
     <Button
         android:id="@+id/filter_catalog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/filter" />
+        android:text="@string/filter"
+        android:layout_alignParentTop="true"/>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_out"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
