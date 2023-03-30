@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coursecataloghi.R;
+import com.example.coursecataloghi.Services.UserService;
 
 import Entities.Data;
 import Entities.User;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView signUpButton;
     SharedPreferences sharedPref;
+    UserService userServ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         signUpButton = (TextView) findViewById(R.id.btnsignup);
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
+        userServ = new UserService();
 
         signUpButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -49,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 //Græja hvað gerist þegar ýtt er á login
                 String uName = username.getText().toString();
                 String pwd = password.getText().toString();
-                boolean loggingIN = logIn(uName, pwd); //kall á userservice userservice.login(un, pw)....
+                boolean loggingIN = userServ.logIn(uName, pwd); //kall á userservice userservice.login(un, pw)....
                 if(loggingIN){ //halda þessu
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.username), uName);
+                    editor.apply();
                     loggedIn();
                 }
                 else {
@@ -63,21 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean logIn(String userName, String pwd){
-        Data data = Data.getInstance();
-        for (User u: data.getUsers()) {
-            if (userName.equals(u.getUsername())) {
-                if (pwd.equals(u.getPassword())) {
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(getString(R.string.username), userName);
-                    editor.apply();
-                    return true;
-                }
-            }
-        }
 
-        return false;
-    }
 
     private void loggedIn(){
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
