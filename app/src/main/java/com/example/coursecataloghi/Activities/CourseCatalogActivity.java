@@ -11,8 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coursecataloghi.Activities.Adapters.CustomizedExpandableListAdapter;
-import com.example.coursecataloghi.Activities.Adapters.ExpandableListDataItems;
 import com.example.coursecataloghi.R;
+import com.example.coursecataloghi.Services.CourseCatalogService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +27,8 @@ public class CourseCatalogActivity extends AppCompatActivity {
     List<String> expandableTitleList;
     HashMap<String, List<String>> expandableDetailList;
     Button filter;
+    // búa til catalogservice7
+    // inní oncreate sem kallar á getinstance, með r resource skránna sem inntak
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
         InputStream inputStream = getResources().openRawResource(R.raw.course_data);
         try {
-            expandableDetailList = ExpandableListDataItems.getData(inputStream);
+            expandableDetailList = CourseCatalogService.getData(inputStream);//ExpandableListDataItems.getData(inputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
