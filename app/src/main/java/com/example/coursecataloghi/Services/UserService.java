@@ -12,7 +12,6 @@ public class UserService {
     // Favorites
     // Signup o.s.frv. á að fara hingað (úr mainactivity...)
     // beiðni á
-    Data data = Data.getInstance();
     NetworkManager netMan = new NetworkManager();
 
     public boolean logIn(String userName, String pwd){
