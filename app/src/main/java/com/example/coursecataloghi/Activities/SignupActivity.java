@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coursecataloghi.R;
+import com.example.coursecataloghi.Services.UserService;
 
 import Entities.Data;
 import Entities.User;
@@ -21,7 +22,7 @@ public class SignupActivity extends AppCompatActivity {
     Button signupButton;
 
     TextView goBackButton;
-    Data data;
+    UserService userServ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class SignupActivity extends AppCompatActivity {
         newRetypePassword = (EditText) findViewById(R.id.newRetypePassword);
         signupButton = (Button) findViewById(R.id.btnSignUp);
         goBackButton = (TextView) findViewById(R.id.btnGoBack);
-        data = Data.getInstance();
+        userServ = new UserService();
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,10 +42,10 @@ public class SignupActivity extends AppCompatActivity {
                 String uName = newUsername.getText().toString();
                 String pwd = newPassword.getText().toString();
                 String pwdrt = newRetypePassword.getText().toString();
-                boolean userExists = doesUeserExsist(uName);
+                boolean userExists = userServ.doesUeserExsist(uName);
                 if (!userExists){
                     if (pwd.equals(pwdrt)) {
-                        data.createUser(uName, pwd);
+                        userServ.createUser(uName, pwd);
                         Toast.makeText(SignupActivity.this, "Success, welcome", Toast.LENGTH_SHORT).show();
                         goBack();
                     }else{
@@ -53,7 +54,7 @@ public class SignupActivity extends AppCompatActivity {
                         newRetypePassword.getText().clear();
                     }
                 }else{
-                    Toast.makeText(SignupActivity.this, "Failed, try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Username already taken, try again", Toast.LENGTH_SHORT).show();
                     newUsername.getText().clear();
                     newPassword.getText().clear();
                     newRetypePassword.getText().clear();
@@ -75,11 +76,5 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
 
-    boolean doesUeserExsist(String uName){
-        for (User u: data.getUsers())
-            if(uName.equals(u.getUsername())){
-                return true;
-            }
-        return false;
-    }
+
 }
