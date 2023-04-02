@@ -29,6 +29,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
     Button filter;
     // búa til catalogservice7
     // inní oncreate sem kallar á getinstance, með r resource skránna sem inntak
+    //CourseCatalogService courseCatalogService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,14 @@ public class CourseCatalogActivity extends AppCompatActivity {
             }
         });
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
-        InputStream inputStream = getResources().openRawResource(R.raw.course_data);
+        InputStream coursedata = getResources().openRawResource(R.raw.course_data);
         try {
-            expandableDetailList = CourseCatalogService.getData(inputStream);//ExpandableListDataItems.getData(inputStream);
+            //CourseCatalogService courseCatalogService = CourseCatalogService.getInstance(coursedata);
+            expandableDetailList = CourseCatalogService.getData(coursedata);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         expandableTitleList = new ArrayList<String>(expandableDetailList.keySet());
         expandableListAdapter = new CustomizedExpandableListAdapter(this, expandableTitleList, expandableDetailList);
         expandableListViewExample.setAdapter(expandableListAdapter);

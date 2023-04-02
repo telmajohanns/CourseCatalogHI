@@ -13,6 +13,16 @@ public class NetworkManager {
     //bara senda beiðni á bakendann, engin logík eða neitt, gerir ekkert með gögnin
 
     Data data = Data.getInstance();
+    // framendinn þarf ekki að tékka á hvort user sé til, það ætti allt a ðvera á bakendanum
+    //ekkert user logic hér
+    //login fall sem sendir network req á bakendann
+    //add to fav og get fav
+
+    public User login(String username, String password) {
+        //þarf að hafa OKHTTP library
+        //stormy appið frá Sigga - það er android app
+        return null;
+    }
 
     public ArrayList<User> getUsers(){
         ArrayList<User>  users = data.getUsers();

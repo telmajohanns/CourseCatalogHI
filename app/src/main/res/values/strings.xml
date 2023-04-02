@@ -20,4 +20,6 @@
     <string name="fall">Fall</string>
     <string name="confirm">Confirm</string>
     <string name="log_out">Log out</string>
+    <string name="cancel">Cancel</string>
+    <string name="language">Language</string>
 </resources>

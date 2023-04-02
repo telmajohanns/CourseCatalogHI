@@ -6,9 +6,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Entities.Course;
 
@@ -47,6 +50,29 @@ public class CourseCatalogService {
     // reseta listann í byrjun á fallinu
 
     // SEtja hann í catalogservice
+
+    //Spurja Sigga: hashmap, dofiltering fallið
+    /*public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        filteredCatalog = allCourses;
+        for(Map.Entry<String, ArrayList<String>> eachFilter: filterMap.entrySet()) {
+            String key = eachFilter.getKey();
+            ArrayList<String> value = eachFilter.getValue();
+            //Object obj = new Object();
+            //Method method = INSTANCE.getClass().getMethod(key, ArrayList<String>);
+            //method.invoke(method, value);
+            Method method = CourseCatalogService.class.getMethod(key, ArrayList.class);
+            method.invoke(INSTANCE, value);
+            //method(value);
+            //Fyrirlestur 7
+            //switch, lykill er key úr hashmap
+
+        }
+
+        //reseta filteredCatalog listann
+        //for lykkju til að forlúppa í gegnum fallið
+        // fyrsta hlutinn í array listanum
+        return filteredCatalog;
+    }*/
 
     public static HashMap<String, List<String>> getData(InputStream inputStream) throws IOException {
         HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
