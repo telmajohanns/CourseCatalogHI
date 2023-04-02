@@ -1,9 +1,18 @@
 package com.example.coursecataloghi.Networking;
 
+import android.app.AlertDialog;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Entities.Data;
 import Entities.User;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class NetworkManager {
     // get, post.... föll
@@ -19,8 +28,31 @@ public class NetworkManager {
     //add to fav og get fav
 
     public User login(String username, String password) {
-        //þarf að hafa OKHTTP library
         //stormy appið frá Sigga - það er android app
+
+        //Það vantar rétta slóð í staðinn fyrir "bakendi"
+        String logInUrl = "bakendi" + username + "/" + password;
+
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(logInUrl).build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //höndla failed connection
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    //höndla responsið sem kemur frá bakenda
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
@@ -32,4 +64,5 @@ public class NetworkManager {
     public void createUser(String uName, String pwd){
         data.createUser(uName, pwd);
     }
+
 }
