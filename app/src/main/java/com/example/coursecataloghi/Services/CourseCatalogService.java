@@ -18,7 +18,6 @@ import Entities.Course;
 public class CourseCatalogService {
     private static CourseCatalogService INSTANCE;
 
-    // singleton pattern?
     private static ArrayList<Course> filteredCatalog = new ArrayList<Course>();
 
     public static ArrayList<Course> allCourses = new ArrayList<Course>();
@@ -38,6 +37,10 @@ public class CourseCatalogService {
         }
         return INSTANCE;
     }
+
+    public static boolean isInitiated() {
+        return INSTANCE != null;
+    }
     //aðal fall sem sér um að applya filteringunum
     // þar kalla á föllin fyrir neðan
     //switch td
@@ -52,27 +55,22 @@ public class CourseCatalogService {
     // SEtja hann í catalogservice
 
     //Spurja Sigga: hashmap, dofiltering fallið
-    /*public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         filteredCatalog = allCourses;
         for(Map.Entry<String, ArrayList<String>> eachFilter: filterMap.entrySet()) {
             String key = eachFilter.getKey();
             ArrayList<String> value = eachFilter.getValue();
-            //Object obj = new Object();
-            //Method method = INSTANCE.getClass().getMethod(key, ArrayList<String>);
-            //method.invoke(method, value);
+            System.out.println("value: " + value.get(0));
             Method method = CourseCatalogService.class.getMethod(key, ArrayList.class);
-            method.invoke(INSTANCE, value);
-            //method(value);
-            //Fyrirlestur 7
-            //switch, lykill er key úr hashmap
-
+            try {
+                System.out.println("Og hingað");
+                method.invoke(INSTANCE, value);
+            } catch (InvocationTargetException e) {
+                Throwable cause = e.getCause();
+            }
         }
-
-        //reseta filteredCatalog listann
-        //for lykkju til að forlúppa í gegnum fallið
-        // fyrsta hlutinn í array listanum
         return filteredCatalog;
-    }*/
+    }
 
     public static HashMap<String, List<String>> getData(InputStream inputStream) throws IOException {
         HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
@@ -127,8 +125,33 @@ public class CourseCatalogService {
         return expandableDetailList;
     }
 
+    public static HashMap<String, List<String>> getFilteredData() {
+        HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
 
-    public ArrayList<Course> filterByText(String filter) {
+        for (Course course: filteredCatalog) {
+            List<String> courseDetails = new ArrayList<>();
+            String[] courseString = {
+                    course.getAcronym(), course.getTitle(), course.getEcts().toString(),
+                    course.getSemester(), course.getEduLevel(), course.getField(),
+                    course.getDept(), course.getLanguage(), course.getMainTeachers(),
+                    course.getTeachers(), course.getYear(), course.getTaught().toString(),
+                    course.getCourseID(), course.getMandatoryPrereq(), course.getReccomPrereq(),
+                    course.getHyperlink()
+            };
+            for (int i = 0; i < courseString.length; i++) {
+                if (!courseString[i].equals("BLANK")) {
+                    courseDetails.add(headers[i]+courseString[i]);
+                }
+            }
+
+            expandableDetailList.put(course.getAcronym() + ": " + course.getTitle(), courseDetails);
+        }
+        return expandableDetailList;
+    }
+
+
+    public ArrayList<Course> filterByText(ArrayList<String> filterList) {
+        String filter = filterList.get(0);
         for (Course course: filteredCatalog) {
             if (!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
                 !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)) {
@@ -138,20 +161,28 @@ public class CourseCatalogService {
         return filteredCatalog;
     }
     public ArrayList<Course> filterBySemester(ArrayList<String> filter) {
-        boolean isSemester = false;
+        System.out.println("Filtera eftir önn");
+
         for(Course course: filteredCatalog) {
+            boolean isSemester = false;
             for (String semester: filter) {
                 if (course.getSemester().equals(semester)) {
+                    System.out.println("Hendir ekki út" + isSemester + " " + course.getTitle());
                     isSemester = true;
                 }
             }
-            if (!isSemester) { filteredCatalog.remove(course);}
+            if (!isSemester) {
+                System.out.println("Og er að henda honum út");
+                filteredCatalog.remove(course);
+
+            }
 
         }
         return filteredCatalog;
     }
 
-    public ArrayList<Course> filterByEduLevel(String filter) {
+    public ArrayList<Course> filterByEduLevel(ArrayList<String> filterList) {
+        String filter = filterList.get(0);
         for(Course course: filteredCatalog) {
             if (!course.getEduLevel().equals(filter)) {
                 filteredCatalog.remove(course);
@@ -159,7 +190,8 @@ public class CourseCatalogService {
         }
         return filteredCatalog;
     }
-    public ArrayList<Course> filterByField(String filter) {
+    public ArrayList<Course> filterByField(ArrayList<String> filterList) {
+        String filter = filterList.get(0);
         for(Course course: filteredCatalog) {
             if (!course.getField().equals(filter)) {
                 filteredCatalog.remove(course);
@@ -167,7 +199,8 @@ public class CourseCatalogService {
         }
         return filteredCatalog;
     }
-    public ArrayList<Course> filterByDept(String filter) {
+    public ArrayList<Course> filterByDept(ArrayList<String> filterList) {
+        String filter = filterList.get(0);
         for(Course course: filteredCatalog) {
             if (!course.getDept().equals(filter)) {
                 filteredCatalog.remove(course);
@@ -188,4 +221,5 @@ public class CourseCatalogService {
         }
         return filteredCatalog;
     }
+
 }

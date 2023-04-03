@@ -39,17 +39,27 @@ public class CourseCatalogActivity extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 filterCatalog();
             }
         });
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
-        InputStream coursedata = getResources().openRawResource(R.raw.course_data);
-        try {
-            //CourseCatalogService courseCatalogService = CourseCatalogService.getInstance(coursedata);
-            expandableDetailList = CourseCatalogService.getData(coursedata);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        if (!CourseCatalogService.isInitiated()) {
+            InputStream coursedata = getResources().openRawResource(R.raw.course_data);
+            try {
+                //CourseCatalogService courseCatalogService = CourseCatalogService.getInstance(coursedata);
+                System.out.println("Hann er að endurræsa aftur");
+                expandableDetailList = CourseCatalogService.getData(coursedata);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        else {
+            System.out.println("Komst hingað");
+            expandableDetailList = CourseCatalogService.getFilteredData();
+        }
+
 
         expandableTitleList = new ArrayList<String>(expandableDetailList.keySet());
         expandableListAdapter = new CustomizedExpandableListAdapter(this, expandableTitleList, expandableDetailList);

@@ -61,7 +61,6 @@ public class FilterActivity extends AppCompatActivity {
         InputStream coursedata = getResources().openRawResource(R.raw.course_data);
         try {
             CourseCatalogService cService = CourseCatalogService.getInstance(coursedata);
-            //cService.doFilter(Hashmap<
             HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
 
             // check á öllum gildunum
@@ -82,29 +81,34 @@ public class FilterActivity extends AppCompatActivity {
                 if (filter_summer.isChecked()) {filterList.add("Sumar");}
                 if (filter_spring.isChecked()) {filterList.add("Vor");}
                 filterMap.put("filterBySemester", filterList);
-            }
-            if (!filter_field.getSelectedItem().toString().isEmpty()) {
+            }/*
+            if (filter_field.getSelectedItem().toString() != null) {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_field.getSelectedItem().toString());
                 filterMap.put("filterByField", filterList);
             }
-            if (!filter_dept.getSelectedItem().toString().isEmpty()) {
+            if (filter_dept.getSelectedItem().toString() != null) {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_dept.getSelectedItem().toString());
                 filterMap.put("filterByDept", filterList);
             }
-            if (!filter_eduLevel.getSelectedItem().toString().isEmpty()) {
+            if (filter_eduLevel.getSelectedItem().toString() != null) {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_eduLevel.getSelectedItem().toString());
                 filterMap.put("filterByEduLevel", filterList);
-            }
+            }*/
+
 
             //fleiri if setningar
-            //CourseCatalogService.doFiltering(filterMap);
+            CourseCatalogService.doFiltering(filterMap);
 //Vantar að setja í breytu til að birta
             Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
             startActivity(switchActivityIntent);
-        } catch (IOException e) {
+        } catch (IOException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
         // Spurja Sigga, hér þurfum við að kalla á dofiltering
