@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ public class FilterActivity extends AppCompatActivity {
 
     EditText filter_teacher_course;
     Button filter_favorites, filter_confirm_button, filter_cancel_button;
-    CheckBox filter_EN, filter_IS, filter_fall, filter_summer, filter_spring;
+    CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
     Spinner filter_eduLevel, filter_dept, filter_field;
 
 
@@ -40,25 +41,28 @@ public class FilterActivity extends AppCompatActivity {
         filter_cancel_button = (Button) findViewById(R.id.filter_cancel_button);
         filter_EN = (CheckBox) findViewById(R.id.filter_EN);
         filter_IS = (CheckBox) findViewById(R.id.filter_IS);
+        filter_ISEN = (CheckBox) findViewById(R.id.filter_ISEN);
         filter_fall = (CheckBox) findViewById(R.id.filter_fall);
         filter_summer = (CheckBox) findViewById(R.id.filter_summer);
         filter_spring = (CheckBox) findViewById(R.id.filter_spring);
         filter_eduLevel = (Spinner) findViewById(R.id.filter_eduLevel);
         filter_dept = (Spinner) findViewById(R.id.filter_dept);
         filter_field = (Spinner) findViewById(R.id.filter_field);
+
         filter_confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 confirmFilter();
-
             }
         });
+
         filter_cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cancelFilter();
             }
         });
+
     }
     private void confirmFilter(){
         //InputStream coursedata = getResources().openRawResource(R.raw.course_data);
@@ -73,10 +77,11 @@ public class FilterActivity extends AppCompatActivity {
                 filterList.add(filter_teacher_course.getText().toString());
                 filterMap.put("filterByText", filterList);
             }
-            if (filter_EN.isChecked() || filter_IS.isChecked()) {
+            if (filter_EN.isChecked() || filter_IS.isChecked() || filter_ISEN.isChecked()) {
                 ArrayList<String> filterList = new ArrayList<>();
                 if (filter_EN.isChecked()) {filterList.add("Enska");}
                 if (filter_IS.isChecked()) {filterList.add("Íslenska");}
+                if (filter_ISEN.isChecked()) {filterList.add("Íslenska/enska");}
                 filterMap.put("filterByLanguage", filterList);
             }
             if (filter_fall.isChecked() || filter_summer.isChecked() || filter_spring.isChecked()) {
@@ -85,7 +90,7 @@ public class FilterActivity extends AppCompatActivity {
                 if (filter_summer.isChecked()) {filterList.add("Sumar");}
                 if (filter_spring.isChecked()) {filterList.add("Vor");}
                 filterMap.put("filterBySemester", filterList);
-            }/*
+            }
             if (filter_field.getSelectedItem().toString() != null) {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_field.getSelectedItem().toString());
@@ -100,7 +105,7 @@ public class FilterActivity extends AppCompatActivity {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_eduLevel.getSelectedItem().toString());
                 filterMap.put("filterByEduLevel", filterList);
-            }*/
+            }
 
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
             //fleiri if setningar

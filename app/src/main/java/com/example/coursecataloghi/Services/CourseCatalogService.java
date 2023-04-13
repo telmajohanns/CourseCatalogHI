@@ -86,6 +86,18 @@ public class CourseCatalogService {
             if (key.equals("filterBySemester")) {
                 filteredCatalog = filterBySemester(value);
             }
+            if (key.equals("filterByEduLevel")) {
+                filteredCatalog = filterByEduLevel(value);
+            }
+            if (key.equals("filterByField")) {
+                filteredCatalog = filterByField(value);
+            }
+            if (key.equals("filterByDept")) {
+                filteredCatalog = filterByDept(value);
+            }
+            if (key.equals("filterByLanguage")) {
+                filteredCatalog = filterByLanguage(value);
+            }
             /*Method method = CourseCatalogService.class.getMethod(key, ArrayList.class);
             try {
                 System.out.println("Kalla á filter methods með invoke");
@@ -183,28 +195,23 @@ public class CourseCatalogService {
 //Debugga
 
     public static ArrayList<Course> filterByText(ArrayList<String> filterList) {
+        String filter = filterList.get(0);
+        if (filter.equals("Áfangi eða kennari")) {return filteredCatalog;}
         ArrayList<Course> temp = new ArrayList<>();
 
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
-        System.out.println("filterByTExt");
-        String filter = filterList.get(0);
-        System.out.println("Texti: " + filter);
         for (Course course: temp) {
             if (!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
                     !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)) {
-                System.out.println("Kemst í if í textafilter");
                 filteredCatalog.remove(course);
             }
         }
         return filteredCatalog;
     }
-    //!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
-    //                !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)
+
     public static ArrayList<Course> filterBySemester(ArrayList<String> filter) {
-        System.out.println("Filtera eftir önn");
-        int i = 0;
         ArrayList<Course> temp = new ArrayList<>();
 
         for(Course course: filteredCatalog) {
@@ -215,13 +222,10 @@ public class CourseCatalogService {
             boolean isSemester = false;
             for (String semester: filter) {
                 if (course.getSemester().equals(semester)) {
-                    System.out.println("Hendir ekki út" + isSemester + " " + course.getTitle());
                     isSemester = true;
-                    i++;
                 }
             }
             if (!isSemester) {
-                System.out.println("Og er að henda honum út");
                 filteredCatalog.remove(course);
 
             }
@@ -229,10 +233,17 @@ public class CourseCatalogService {
         }
         return filteredCatalog;
     }
-/*
+
     public static ArrayList<Course> filterByEduLevel(ArrayList<String> filterList) {
         String filter = filterList.get(0);
+        if (filter.equals("Öll námstig")) {return filteredCatalog;}
+        ArrayList<Course> temp = new ArrayList<>();
+
         for(Course course: filteredCatalog) {
+            temp.add(course);
+        }
+
+        for(Course course: temp) {
             if (!course.getEduLevel().equals(filter)) {
                 filteredCatalog.remove(course);
             }
@@ -241,7 +252,14 @@ public class CourseCatalogService {
     }
     public static ArrayList<Course> filterByField(ArrayList<String> filterList) {
         String filter = filterList.get(0);
+        if (filter.equals("Öll svið")) {return filteredCatalog;}
+        ArrayList<Course> temp = new ArrayList<>();
+
         for(Course course: filteredCatalog) {
+            temp.add(course);
+        }
+        System.out.println(filter);
+        for(Course course: temp) {
             if (!course.getField().equals(filter)) {
                 filteredCatalog.remove(course);
             }
@@ -250,7 +268,14 @@ public class CourseCatalogService {
     }
     public static ArrayList<Course> filterByDept(ArrayList<String> filterList) {
         String filter = filterList.get(0);
+        if (filter.equals("Allar deildir")) {return filteredCatalog;}
+        ArrayList<Course> temp = new ArrayList<>();
+
         for(Course course: filteredCatalog) {
+            temp.add(course);
+        }
+
+        for(Course course: temp) {
             if (!course.getDept().equals(filter)) {
                 filteredCatalog.remove(course);
             }
@@ -258,8 +283,14 @@ public class CourseCatalogService {
         return filteredCatalog;
     }
     public static ArrayList<Course> filterByLanguage(ArrayList<String> filter) {
-        boolean isLanguage = false;
+        ArrayList<Course> temp = new ArrayList<>();
+
         for(Course course: filteredCatalog) {
+            temp.add(course);
+        }
+
+        for(Course course: temp) {
+            boolean isLanguage = false;
             for (String language: filter) {
                 if (course.getLanguage().equals(language)) {
                     isLanguage = true;
@@ -269,6 +300,6 @@ public class CourseCatalogService {
 
         }
         return filteredCatalog;
-    }*/
+    }
 
 }

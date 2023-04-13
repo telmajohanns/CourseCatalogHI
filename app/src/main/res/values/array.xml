@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="eduFilterItems">
+        <item>Öll námstig</item>
+        <item>Grunnnám</item>
+        <item>Framhaldsnám</item>
+        <item>Grunn- og framhaldsnám</item>
+    </string-array>
+    <string-array name="fieldFilterItems">
+        <item>Öll svið</item>
+        <item>Félagsvísindasvið</item>
+        <item>Heilbrigðisvísindasvið</item>
+        <item>Hugvísindasvið</item>
+        <item>Menntavísindasvið</item>
+        <item>Verkfræði- og náttúruvísindasvið</item>
+    </string-array>
+    <string-array name="deptFilterItems">
+        <item>Allar deildir</item>
+        <item>Stjórnmálafræðideild</item>
+        <item>Félagsfræði-, mannfræði- og þjóðfræðideild</item>
+        <item>Hjúkrunar- og ljósmóðurfræðideild</item>
+        <item>Íslensku- og menningardeild</item>
+        <item>Deild menntunar og margbreytileika</item>
+        <item>Deild kennslu- og menntunarfræði</item>
+        <item>Umhverfis- og byggingarverkfræðideild</item>
+        <item>Raunvísindadeild</item>
+        <item>Iðnaðarverkfræði-, vélaverkfræði- og tölvunarfræðideild</item>
+        <item>Líf- og umhverfisvísindadeild</item>
+        <item>Jarðvísindadeild</item>
+    </string-array>
+</resources>
