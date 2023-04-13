@@ -47,7 +47,7 @@ public class CourseCatalogService {
 
     public static void setFilteredCatalog(ArrayList<Course> filteredCatalogList) {
         System.out.println("Ætti að vera annað");
-        filteredCatalog = filteredCatalogList;
+        //filteredCatalog = filteredCatalogList;
         for(Course course: filteredCatalog) {
             System.out.println(course.getAcronym());
         }
@@ -119,7 +119,6 @@ public class CourseCatalogService {
                             true,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
                     //filteredCatalog.add(course);
-
                 } else if(row[11].equals("Nei")) { //Annars er isTaught sett sem false
                     course = new Course(row[0], row[1],Double.parseDouble(row[2]),
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
@@ -130,7 +129,6 @@ public class CourseCatalogService {
                 else{
                     course= null;
                 }
-
                 //expandableDetailList.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
                 expandableDetailListAll.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
 
@@ -173,15 +171,19 @@ public class CourseCatalogService {
 
 
     public ArrayList<Course> filterByText(ArrayList<String> filterList) {
+        System.out.println("filterByTExt");
         String filter = filterList.get(0);
+        System.out.println("Texti: " + filter);
         for (Course course: filteredCatalog) {
-            if (!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
-                !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)) {
+            if (!course.getAcronym().contains(filter)) {
+                System.out.println("Kemst í if í textafilter");
                 filteredCatalog.remove(course);
             }
         }
         return filteredCatalog;
     }
+    //!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
+    //                !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)
     public ArrayList<Course> filterBySemester(ArrayList<String> filter) {
         System.out.println("Filtera eftir önn");
 
