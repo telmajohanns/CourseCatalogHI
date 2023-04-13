@@ -6,7 +6,7 @@ public class User {
     private String userID;
     private String username;
     private String password;
-    private ArrayList<Course> favorites;
+    private ArrayList<String> favorites;
 
     public User(String username, String password) {
         this.username = username;
@@ -37,14 +37,14 @@ public class User {
         this.password = password;
     }
 
-    public ArrayList<Course> getFavorites() {
+    public ArrayList<String> getFavorites() {
         return favorites;
     }
 
-    public void addCourseToFav(Course course) {
+    public void addCourseToFav(String course) {
         favorites.add(course);
     }
-    public void setFavorites(ArrayList<Course> favorites) {
+    public void setFavorites(ArrayList<String> favorites) {
         this.favorites = favorites;
     }
 }

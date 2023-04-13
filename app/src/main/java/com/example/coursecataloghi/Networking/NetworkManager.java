@@ -97,4 +97,28 @@ public class NetworkManager {
         data.createUser(uName, pwd);
     }
 
+    public void addToFavorites(String userName, String courseID) {
+        String logInUrl = "https://course-catalog-ksot.onrender.com/addtofav/" + userName + "/" + courseID;
+
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(logInUrl).build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //höndla failed connection
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    //höndla responsið sem kemur frá bakenda
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

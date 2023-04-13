@@ -37,4 +37,8 @@ public class UserService {
     public void createUser(String uName, String pwd){
         netMan.createUser(uName, pwd);
     }
+
+    public void addToFavorites(String user, String courseID){
+        netMan.addToFavorites(user, courseID);
+    }
 }
