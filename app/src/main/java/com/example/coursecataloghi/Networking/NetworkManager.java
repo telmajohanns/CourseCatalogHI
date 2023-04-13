@@ -22,16 +22,16 @@ public class NetworkManager {
     //bara senda beiðni á bakendann, engin logík eða neitt, gerir ekkert með gögnin
 
     Data data = Data.getInstance();
-    // framendinn þarf ekki að tékka á hvort user sé til, það ætti allt a ðvera á bakendanum
+    // framendinn þarf ekki að tékka á hvort user sé til, það ætti allt að vera á bakendanum
     //ekkert user logic hér
     //login fall sem sendir network req á bakendann
     //add to fav og get fav
 
-    public User login(String username, String password) {
+    public boolean login(String username, String password) {
         //stormy appið frá Sigga - það er android app
 
         //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String logInUrl = "bakendi" + username + "/" + password;
+        String logInUrl = "https://course-catalog-ksot.onrender.com/login/" + username + "/" + password;
 
         try {
             OkHttpClient client = new OkHttpClient();
@@ -48,12 +48,44 @@ public class NetworkManager {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     //höndla responsið sem kemur frá bakenda
+
                 }
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return true;
+    }
+
+
+    public boolean signUp(String username, String password) {
+        //stormy appið frá Sigga - það er android app
+
+        //Það vantar rétta slóð í staðinn fyrir "bakendi"
+        String logInUrl = "https://course-catalog-ksot.onrender.com/signup/" + username + "/" + password;
+
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(logInUrl).build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //höndla failed connection
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    //höndla responsið sem kemur frá bakenda
+
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
     public ArrayList<User> getUsers(){

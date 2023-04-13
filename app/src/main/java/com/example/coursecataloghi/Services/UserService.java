@@ -15,7 +15,6 @@ public class UserService {
     NetworkManager netMan = new NetworkManager();
 
     public boolean logIn(String userName, String pwd){
-
         for (User u: netMan.getUsers()) {
             if (userName.equals(u.getUsername())) {
                 if (pwd.equals(u.getPassword())) {
