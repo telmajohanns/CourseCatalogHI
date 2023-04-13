@@ -16,11 +16,13 @@ import java.util.Map;
 import Entities.Course;
 
 public class CourseCatalogService {
+    private static boolean csInitiated = false;
     private static CourseCatalogService INSTANCE;
 
     private static ArrayList<Course> filteredCatalog = new ArrayList<Course>();
 
     public static ArrayList<Course> allCourses = new ArrayList<Course>();
+    public static HashMap<String, List<String>> expandableDetailListAll = new HashMap<String, List<String>>();
     private static final String[] headers = {"Acronym: ", "Title: ", "ECTS: ", "Semester: ",
             "Level: ", "Field: ", "Department: ",
             "Language: ", "Supervising teacher(s): ", "Teachers: ", "Year: ",
@@ -29,6 +31,11 @@ public class CourseCatalogService {
 
     private CourseCatalogService(InputStream coursedata) throws IOException {
         getData(coursedata);
+        csInitiated = true;
+    }
+
+    public static HashMap<String, List<String>> getExpandableDetailListAll() {
+        return expandableDetailListAll;
     }
 
     public static CourseCatalogService getInstance(InputStream coursedata) throws IOException {
@@ -38,32 +45,38 @@ public class CourseCatalogService {
         return INSTANCE;
     }
 
+    public static void setFilteredCatalog(ArrayList<Course> filteredCatalogList) {
+        System.out.println("Ætti að vera annað");
+        //filteredCatalog = filteredCatalogList;
+        for(Course course: filteredCatalog) {
+            System.out.println(course.getAcronym());
+        }
+    }
+
+    public static boolean isCsInitiated() {
+        return csInitiated;
+    }
+
     public static boolean isInitiated() {
         return INSTANCE != null;
     }
-    //aðal fall sem sér um að applya filteringunum
-    // þar kalla á föllin fyrir neðan
-    //switch td
-    //catalog serviceinu
-    //hashmap
-    //dofiltering, tekur inn hashmap af filteringum sem á að framkvæma
-    //lykill er nafnið, filterbyfield, valueið er filteringin sjálf, VON
-    // sækja gildið og applya filteringunni
-    //value væri strengur eða arraylisti af strengjum
-    // reseta listann í byrjun á fallinu
 
-    // SEtja hann í catalogservice
 
-    //Spurja Sigga: hashmap, dofiltering fallið
     public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        filteredCatalog = allCourses;
+        System.out.println("Byrja dofiltering fall");
+        ArrayList<Course> temp = allCourses;
+        //filteredCatalog.clear();
+        filteredCatalog = temp;
+        for (Course course : allCourses) {
+            System.out.println("ALL: " + course.getAcronym());
+        }
         for(Map.Entry<String, ArrayList<String>> eachFilter: filterMap.entrySet()) {
             String key = eachFilter.getKey();
             ArrayList<String> value = eachFilter.getValue();
             System.out.println("value: " + value.get(0));
             Method method = CourseCatalogService.class.getMethod(key, ArrayList.class);
             try {
-                System.out.println("Og hingað");
+                System.out.println("Kalla á filter methods með invoke");
                 method.invoke(INSTANCE, value);
             } catch (InvocationTargetException e) {
                 Throwable cause = e.getCause();
@@ -73,7 +86,10 @@ public class CourseCatalogService {
     }
 
     public static HashMap<String, List<String>> getData(InputStream inputStream) throws IOException {
-        HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
+
+        //if(!allCourses.isEmpty()) {allCourses.clear();}
+        System.out.println("getData fallið");
+        //HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
         //Lesa gögnin úr csv skránni og bæta í Hashmap
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
@@ -102,18 +118,19 @@ public class CourseCatalogService {
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
                             true,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
-                    filteredCatalog.add(course);
-
-                }
-                else { //Annars er isTaught sett sem false
+                    //filteredCatalog.add(course);
+                } else if(row[11].equals("Nei")) { //Annars er isTaught sett sem false
                     course = new Course(row[0], row[1],Double.parseDouble(row[2]),
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
                             false,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
-                    filteredCatalog.add(course);
+                    //filteredCatalog.add(course);
                 }
-
-                expandableDetailList.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
+                else{
+                    course= null;
+                }
+                //expandableDetailList.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
+                expandableDetailListAll.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
 
             }
         } catch (IOException e) {
@@ -122,10 +139,13 @@ public class CourseCatalogService {
         finally {
             inputStream.close();
         }
-        return expandableDetailList;
+        //filteredCatalog = allCourses;
+        return expandableDetailListAll;
     }
 
     public static HashMap<String, List<String>> getFilteredData() {
+        System.out.println("Ætti að vera síðast - getFiltered Data fallið");
+
         HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
 
         for (Course course: filteredCatalog) {
@@ -151,15 +171,19 @@ public class CourseCatalogService {
 
 
     public ArrayList<Course> filterByText(ArrayList<String> filterList) {
+        System.out.println("filterByTExt");
         String filter = filterList.get(0);
+        System.out.println("Texti: " + filter);
         for (Course course: filteredCatalog) {
-            if (!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
-                !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)) {
+            if (!course.getAcronym().contains(filter)) {
+                System.out.println("Kemst í if í textafilter");
                 filteredCatalog.remove(course);
             }
         }
         return filteredCatalog;
     }
+    //!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
+    //                !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)
     public ArrayList<Course> filterBySemester(ArrayList<String> filter) {
         System.out.println("Filtera eftir önn");
 
