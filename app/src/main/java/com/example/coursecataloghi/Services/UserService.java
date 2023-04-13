@@ -15,7 +15,6 @@ public class UserService {
     NetworkManager netMan = new NetworkManager();
 
     public boolean logIn(String userName, String pwd){
-
         for (User u: netMan.getUsers()) {
             if (userName.equals(u.getUsername())) {
                 if (pwd.equals(u.getPassword())) {
@@ -37,5 +36,9 @@ public class UserService {
 
     public void createUser(String uName, String pwd){
         netMan.createUser(uName, pwd);
+    }
+
+    public void addToFavorites(String user, String courseID){
+        netMan.addToFavorites(user, courseID);
     }
 }
