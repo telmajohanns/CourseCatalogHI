@@ -1,6 +1,8 @@
 package com.example.coursecataloghi.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,8 @@ public class CourseCatalogActivity extends AppCompatActivity {
     List<String> expandableTitleList;
     HashMap<String, List<String>> expandableDetailList;
     Button filter;
+    Button logOutBtn;
+    SharedPreferences sharedPref;
     // búa til catalogservice7
     // inní oncreate sem kallar á getinstance, með r resource skránna sem inntak
     //CourseCatalogService courseCatalogService;
@@ -36,6 +40,16 @@ public class CourseCatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_catalog);
         filter = (Button) findViewById(R.id.filter_catalog);
+        logOutBtn = (Button) findViewById(R.id.logout_button);
+        sharedPref = this.getSharedPreferences(
+                getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
+
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +119,13 @@ public class CourseCatalogActivity extends AppCompatActivity {
     }
     private void filterCatalog() {
         Intent switchActivityIntent = new Intent(this, FilterActivity.class);
+        startActivity(switchActivityIntent);
+    }
+
+    private void signOut(){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("Username").commit();
+        Intent switchActivityIntent = new Intent(this, MainActivity.class);
         startActivity(switchActivityIntent);
     }
 }
