@@ -45,20 +45,25 @@ public class CourseCatalogActivity extends AppCompatActivity {
         });
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
 
-        if (!CourseCatalogService.isInitiated()) {
+        if (!CourseCatalogService.isCsInitiated()) {
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
+
+            //CourseCatalogService courseCatalogService = CourseCatalogService.getInstance(coursedata);
+            System.out.println("Sækja org data");
             try {
-                //CourseCatalogService courseCatalogService = CourseCatalogService.getInstance(coursedata);
-                System.out.println("Hann er að endurræsa aftur");
-                expandableDetailList = CourseCatalogService.getData(coursedata);
+                CourseCatalogService.getInstance(coursedata);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            expandableDetailList = CourseCatalogService.getExpandableDetailListAll();
         }
         else {
-            System.out.println("Komst hingað");
+            System.out.println("Sækja filtered data");
+
+            //expandableDetailList.clear();
             expandableDetailList = CourseCatalogService.getFilteredData();
         }
+
 
 
         expandableTitleList = new ArrayList<String>(expandableDetailList.keySet());

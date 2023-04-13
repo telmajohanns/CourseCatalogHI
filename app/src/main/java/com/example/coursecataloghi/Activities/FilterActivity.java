@@ -19,6 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Entities.Course;
+
 public class FilterActivity extends AppCompatActivity {
 
     EditText filter_teacher_course;
@@ -58,9 +60,10 @@ public class FilterActivity extends AppCompatActivity {
         });
     }
     private void confirmFilter(){
-        InputStream coursedata = getResources().openRawResource(R.raw.course_data);
+        //InputStream coursedata = getResources().openRawResource(R.raw.course_data);
         try {
-            CourseCatalogService cService = CourseCatalogService.getInstance(coursedata);
+
+            //CourseCatalogService cService = CourseCatalogService.getInstance(coursedata);
             HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
 
             // check á öllum gildunum
@@ -100,11 +103,12 @@ public class FilterActivity extends AppCompatActivity {
 
 
             //fleiri if setningar
-            CourseCatalogService.doFiltering(filterMap);
+            ArrayList<Course> filteredList = CourseCatalogService.doFiltering(filterMap);
+            CourseCatalogService.setFilteredCatalog(filteredList);
 //Vantar að setja í breytu til að birta
             Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
             startActivity(switchActivityIntent);
-        } catch (IOException | InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
