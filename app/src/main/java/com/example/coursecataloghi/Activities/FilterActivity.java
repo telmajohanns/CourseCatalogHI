@@ -2,6 +2,7 @@ package com.example.coursecataloghi.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -101,9 +102,9 @@ public class FilterActivity extends AppCompatActivity {
                 filterMap.put("filterByEduLevel", filterList);
             }*/
 
-
+            InputStream coursedata = getResources().openRawResource(R.raw.course_data);
             //fleiri if setningar
-            ArrayList<Course> filteredList = CourseCatalogService.doFiltering(filterMap);
+            ArrayList<Course> filteredList = CourseCatalogService.doFiltering(filterMap, coursedata);
             CourseCatalogService.setFilteredCatalog(filteredList);
 //Vantar að setja í breytu til að birta
             Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
@@ -113,6 +114,8 @@ public class FilterActivity extends AppCompatActivity {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // Spurja Sigga, hér þurfum við að kalla á dofiltering
