@@ -29,15 +29,25 @@ public class CourseCatalogService {
             "Is taught: ", "Course ID: ", "Mandatory Prerequisites: ", "Recommended Prerequisites: ",
             "Further details: "};
 
+    /**
+     * Private smiður sem er aðeins kallað í einu sinni því CourseCatalogService er Singleton
+     * @param coursedata
+     * @throws IOException
+     */
     private CourseCatalogService(InputStream coursedata) throws IOException {
         getData(coursedata);
         csInitiated = true;
     }
 
-    public static HashMap<String, List<String>> getExpandableDetailListAll() {
-        return expandableDetailListAll;
-    }
+    public static HashMap<String, List<String>> getExpandableDetailListAll() { return expandableDetailListAll; }
 
+    /**
+     * Singleton smiður sem býr til CourseCatalogService eða skila INSTANCE ef hann var
+     * þegar til
+     * @param coursedata
+     * @return INSTANCE
+     * @throws IOException
+     */
     public static CourseCatalogService getInstance(InputStream coursedata) throws IOException {
         if (INSTANCE == null) {
             INSTANCE = new CourseCatalogService(coursedata);
@@ -45,75 +55,48 @@ public class CourseCatalogService {
         return INSTANCE;
     }
 
-    public static void setFilteredCatalog(ArrayList<Course> filteredCatalogList) {
-        System.out.println("Ætti að vera annað");
-        //filteredCatalog = filteredCatalogList;
-        for(Course course: filteredCatalog) {
-            System.out.println(course.getAcronym());
-        }
-    }
+    public static boolean isCsInitiated() { return csInitiated; }
 
-    public static boolean isCsInitiated() {
-        return csInitiated;
-    }
-
-    public static boolean isInitiated() {
-        return INSTANCE != null;
-    }
-
-
+    /**
+     * Fall sem tekur við Hashmap af filteringum og kallar á öll föll sem þarf
+     * @param filterMap Hashmap af fallaköllum og filteringum
+     * @param coursedata
+     * @return
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws IOException
+     */
     public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap, InputStream coursedata) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException {
-        System.out.println("Byrja dofiltering fall");
-        if (!allCourses.isEmpty()) {
-            allCourses.clear();
-        }
-
+        // Endurstilla listann
+        if (!allCourses.isEmpty()) { allCourses.clear(); }
         getData(coursedata);
+        filteredCatalog = allCourses;
 
-        ArrayList<Course> temp = allCourses;
-        //filteredCatalog.clear();
-        filteredCatalog = temp;
-        for (Course course : allCourses) {
-            System.out.println("ALL: " + course.getAcronym());
-        }
+        // Lúppum í gegnum Hashmap-ið og filterum eftir öllu sem var sett inn
+        // Key er fallakallið, value eru síurnar sjálfar
         for(Map.Entry<String, ArrayList<String>> eachFilter: filterMap.entrySet()) {
             String key = eachFilter.getKey();
             ArrayList<String> value = eachFilter.getValue();
-            System.out.println("value: " + value.get(0));
-            if (key.equals("filterByText")) {
-                filteredCatalog = filterByText(value);
-            }
-            if (key.equals("filterBySemester")) {
-                filteredCatalog = filterBySemester(value);
-            }
-            if (key.equals("filterByEduLevel")) {
-                filteredCatalog = filterByEduLevel(value);
-            }
-            if (key.equals("filterByField")) {
-                filteredCatalog = filterByField(value);
-            }
-            if (key.equals("filterByDept")) {
-                filteredCatalog = filterByDept(value);
-            }
-            if (key.equals("filterByLanguage")) {
-                filteredCatalog = filterByLanguage(value);
-            }
-            /*Method method = CourseCatalogService.class.getMethod(key, ArrayList.class);
-            try {
-                System.out.println("Kalla á filter methods með invoke");
-                method.invoke(INSTANCE, value);
-            } catch (InvocationTargetException e) {
-                Throwable cause = e.getCause();
-            }*/
+
+            // Kalla á rétt föll eftir því hvaða sía var sett á
+            if (key.equals("filterByText")) { filteredCatalog = filterByText(value); }
+            if (key.equals("filterBySemester")) { filteredCatalog = filterBySemester(value); }
+            if (key.equals("filterByEduLevel")) { filteredCatalog = filterByEduLevel(value); }
+            if (key.equals("filterByField")) { filteredCatalog = filterByField(value); }
+            if (key.equals("filterByDept")) { filteredCatalog = filterByDept(value); }
+            if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value); }
         }
         return filteredCatalog;
     }
 
+    /**
+     * Fall sem les kennsluskrárgögn úr course_data.csv skrá
+     * @param inputStream
+     * @return Hashmap af áföngum til að birta í ExpandableListView
+     * @throws IOException
+     */
     public static HashMap<String, List<String>> getData(InputStream inputStream) throws IOException {
-
-        //if(!allCourses.isEmpty()) {allCourses.clear();}
-        System.out.println("getData fallið");
-        //HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
         //Lesa gögnin úr csv skránni og bæta í Hashmap
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
@@ -122,53 +105,48 @@ public class CourseCatalogService {
                 Course course;
                 List<String> courseDetails = new ArrayList<String>();
                 String[] row = line.split(";");
-                if (row[3].equals("V")) {
-                    row[3] = "Vor";
-                }
-                else if (row[3].equals("H")) {
-                    row[3] = "Haust";
-                }
-                else if (row[3].equals("S")) {
-                    row[3] = "Sumar";
-                }
+
+                // Gögn sett í rétta framsetningu
+                if (row[3].equals("V")) { row[3] = "Vor"; }
+                else if (row[3].equals("H")) { row[3] = "Haust"; }
+                else if (row[3].equals("S")) { row[3] = "Sumar"; }
+
+                // Séð til þess að tómir reitir (BLANK) birtist ekki í lista
                 for (int i = 2; i<row.length; i++) {
-                    if (!row[i].equals("BLANK")) {
-                        courseDetails.add(headers[i]+row[i]);
-                    }
+                    if (!row[i].equals("BLANK")) { courseDetails.add(headers[i]+row[i]); }
                 }
-                //Ef áfangi er kenndur þá er isTaught sett sem true
+
+                //Ef áfangi er kenndur þá er isTaught sett sem true í course hlutnum
                 if (row[11].equals("Já")) {
                     course = new Course(row[0], row[1],Double.parseDouble(row[2]),
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
                             true,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
-                    //filteredCatalog.add(course);
-                } else if(row[11].equals("Nei")) { //Annars er isTaught sett sem false
+                }
+                else if(row[11].equals("Nei")) { //Annars er isTaught sett sem false
                     course = new Course(row[0], row[1],Double.parseDouble(row[2]),
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
                             false,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
-                    //filteredCatalog.add(course);
                 }
-                else{
-                    course= null;
-                }
-                //expandableDetailList.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
+                else{ course= null; }
+
+                //Áföngum bætt í Hashmap á réttu sniði til að birta í ExpandableListView
                 expandableDetailListAll.put((course.getAcronym() + ": " + course.getTitle()), courseDetails);
 
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        finally {
-            inputStream.close();
-        }
-        //filteredCatalog = allCourses;
+        } catch (IOException e) { throw new RuntimeException(e); }
+        finally { inputStream.close(); }
+
         return expandableDetailListAll;
     }
 
+    /**
+     * Fall sem skilar gögnunum úr filteredCatalog í Hashmapi
+     * Til að stemma við kröfur frá ExpandableListView í Android
+     * @return filteredCatalog sem Hashmap
+     */
     public static HashMap<String, List<String>> getFilteredData() {
-        System.out.println("Ætti að vera síðast - getFiltered Data fallið");
 
         HashMap<String, List<String>> expandableDetailList = new HashMap<String, List<String>>();
 
@@ -187,33 +165,43 @@ public class CourseCatalogService {
                     courseDetails.add(headers[i]+courseString[i]);
                 }
             }
-
             expandableDetailList.put(course.getAcronym() + ": " + course.getTitle(), courseDetails);
         }
         return expandableDetailList;
     }
-//Debugga
 
+    /**
+     * Fall sem síar listann á streng úr textareit
+     * @param filterList Sía
+     * @return Síuðum lista
+     */
     public static ArrayList<Course> filterByText(ArrayList<String> filterList) {
-        String filter = filterList.get(0);
-        if (filter.equals("Áfangi eða kennari")) {return filteredCatalog;}
+        // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
-
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
+
+        // Sæki gildið sem var í textareit og loop-a svo í gegnum temp lista
+        String filter = filterList.get(0);
         for (Course course: temp) {
             if (!course.getTitle().contains(filter) && !course.getAcronym().contains(filter) &&
                     !course.getTeachers().contains(filter) && !course.getMainTeachers().contains(filter)) {
+                // Fjarlægi áfanga ef filter textinn passar ekki við áfangaheiti eða kennara
                 filteredCatalog.remove(course);
             }
         }
         return filteredCatalog;
     }
 
+    /**
+     * Fall sem síar listann eftir önn, Checkbox
+     * @param filter Sía, valdar annir í checkbox
+     * @return Síuðum lista
+     */
     public static ArrayList<Course> filterBySemester(ArrayList<String> filter) {
+        // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
-
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
@@ -221,70 +209,86 @@ public class CourseCatalogService {
         for(Course course: temp) {
             boolean isSemester = false;
             for (String semester: filter) {
-                if (course.getSemester().equals(semester)) {
-                    isSemester = true;
-                }
+                if (course.getSemester().equals(semester)) { isSemester = true; }
             }
-            if (!isSemester) {
-                filteredCatalog.remove(course);
-
-            }
+            if (!isSemester) { filteredCatalog.remove(course); }
 
         }
         return filteredCatalog;
     }
 
+    /**
+     * Fall sem síar listann eftir námstigi
+     * @param filterList Sía, valið námstig
+     * @return Síuðum lista
+     */
     public static ArrayList<Course> filterByEduLevel(ArrayList<String> filterList) {
-        String filter = filterList.get(0);
-        if (filter.equals("Öll námstig")) {return filteredCatalog;}
+        // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
-
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
 
+        String filter = filterList.get(0);
         for(Course course: temp) {
-            if (!course.getEduLevel().equals(filter)) {
-                filteredCatalog.remove(course);
-            }
+            if (!course.getEduLevel().equals(filter)) { filteredCatalog.remove(course); }
         }
         return filteredCatalog;
     }
+
+    /**
+     * Fall sem síar listann eftir Sviði
+     * @param filterList Sía, valið svið
+     * @return Síuðum lista
+     */
     public static ArrayList<Course> filterByField(ArrayList<String> filterList) {
         String filter = filterList.get(0);
+        // Default val er öll svið og þá þarf ekki að lúppa í gegnum alla áfanga
         if (filter.equals("Öll svið")) {return filteredCatalog;}
-        ArrayList<Course> temp = new ArrayList<>();
 
+        // Bý til temp lista til að geta loop-að í gegnum
+        ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
+
         System.out.println(filter);
         for(Course course: temp) {
-            if (!course.getField().equals(filter)) {
-                filteredCatalog.remove(course);
-            }
+            if (!course.getField().equals(filter)) { filteredCatalog.remove(course); }
         }
         return filteredCatalog;
     }
+
+    /**
+     * Fall sem síar listann eftir deild
+     * @param filterList Sía, valin deild
+     * @return Síuðum lista
+     */
     public static ArrayList<Course> filterByDept(ArrayList<String> filterList) {
         String filter = filterList.get(0);
+        // Default val er allar deildir og þá þarf ekki að lúppa í gegnum alla áfanga
         if (filter.equals("Allar deildir")) {return filteredCatalog;}
-        ArrayList<Course> temp = new ArrayList<>();
 
+        // Bý til temp lista til að geta loop-að í gegnum
+        ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
 
         for(Course course: temp) {
-            if (!course.getDept().equals(filter)) {
-                filteredCatalog.remove(course);
-            }
+            if (!course.getDept().equals(filter)) { filteredCatalog.remove(course); }
         }
         return filteredCatalog;
     }
-    public static ArrayList<Course> filterByLanguage(ArrayList<String> filter) {
-        ArrayList<Course> temp = new ArrayList<>();
 
+    /**
+     * Fall sem síar listann eftir tungumáli
+     * @param filter Sía, valin tungumála checkbox
+     * @return Síuðum lista
+     */
+    public static ArrayList<Course> filterByLanguage(ArrayList<String> filter) {
+        // Bý til temp lista til að geta loop-að í gegnum
+        ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
             temp.add(course);
         }
@@ -292,12 +296,9 @@ public class CourseCatalogService {
         for(Course course: temp) {
             boolean isLanguage = false;
             for (String language: filter) {
-                if (course.getLanguage().equals(language)) {
-                    isLanguage = true;
-                }
+                if (course.getLanguage().equals(language)) { isLanguage = true; }
             }
             if (!isLanguage) { filteredCatalog.remove(course);}
-
         }
         return filteredCatalog;
     }

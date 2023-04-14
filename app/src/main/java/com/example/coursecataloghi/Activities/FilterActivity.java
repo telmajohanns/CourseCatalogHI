@@ -110,7 +110,6 @@ public class FilterActivity extends AppCompatActivity {
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
             //fleiri if setningar
             ArrayList<Course> filteredList = CourseCatalogService.doFiltering(filterMap, coursedata);
-            CourseCatalogService.setFilteredCatalog(filteredList);
 //Vantar að setja í breytu til að birta
             Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
             startActivity(switchActivityIntent);
