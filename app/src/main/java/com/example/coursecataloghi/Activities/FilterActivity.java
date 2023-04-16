@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -49,6 +50,7 @@ public class FilterActivity extends AppCompatActivity {
         filter_dept = (Spinner) findViewById(R.id.filter_dept);
         filter_field = (Spinner) findViewById(R.id.filter_field);
 
+
         filter_confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,21 +93,22 @@ public class FilterActivity extends AppCompatActivity {
                 if (filter_spring.isChecked()) {filterList.add("Vor");}
                 filterMap.put("filterBySemester", filterList);
             }
-            if (filter_field.getSelectedItem().toString() != null) {
-                ArrayList<String> filterList = new ArrayList<>();
-                filterList.add(filter_field.getSelectedItem().toString());
-                filterMap.put("filterByField", filterList);
-            }
-            if (filter_dept.getSelectedItem().toString() != null) {
-                ArrayList<String> filterList = new ArrayList<>();
-                filterList.add(filter_dept.getSelectedItem().toString());
-                filterMap.put("filterByDept", filterList);
-            }
-            if (filter_eduLevel.getSelectedItem().toString() != null) {
+            if (!filter_eduLevel.getSelectedItem().toString().equals("Öll námstig")) {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_eduLevel.getSelectedItem().toString());
                 filterMap.put("filterByEduLevel", filterList);
             }
+            if (!filter_dept.getSelectedItem().toString().equals("Allar deildir")) {
+                ArrayList<String> filterList = new ArrayList<>();
+                filterList.add(filter_dept.getSelectedItem().toString());
+                filterMap.put("filterByDept", filterList);
+            }
+            if (!filter_field.getSelectedItem().toString().equals("Öll svið")) {
+                ArrayList<String> filterList = new ArrayList<>();
+                filterList.add(filter_field.getSelectedItem().toString());
+                filterMap.put("filterByField", filterList);
+            }
+
 
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
             //fleiri if setningar
@@ -113,16 +116,10 @@ public class FilterActivity extends AppCompatActivity {
 //Vantar að setja í breytu til að birta
             Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
             startActivity(switchActivityIntent);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
+                 IOException e) {
             throw new RuntimeException(e);
         }
-        // Spurja Sigga, hér þurfum við að kalla á dofiltering
 
     }
     private void cancelFilter(){

@@ -16,18 +16,22 @@ import java.util.Map;
 import Entities.Course;
 
 public class CourseCatalogService {
+    // boolean check sem segir til um hvort CourseCatalogService sé til (Singleton)
     private static boolean csInitiated = false;
+    // Singleton Instance af CourseCatalogService
     private static CourseCatalogService INSTANCE;
-
+    // ArrayList sem er notaður við síun
     private static ArrayList<Course> filteredCatalog = new ArrayList<Course>();
-
+    // ArrayList sem inniheldur alla áfanga í kennsluskránni
     public static ArrayList<Course> allCourses = new ArrayList<Course>();
+    // Hashmap með öllum áföngum á réttu sniði fyrir ExpandableListView
     public static HashMap<String, List<String>> expandableDetailListAll = new HashMap<String, List<String>>();
-    private static final String[] headers = {"Acronym: ", "Title: ", "ECTS: ", "Semester: ",
-            "Level: ", "Field: ", "Department: ",
-            "Language: ", "Supervising teacher(s): ", "Teachers: ", "Year: ",
-            "Is taught: ", "Course ID: ", "Mandatory Prerequisites: ", "Recommended Prerequisites: ",
-            "Further details: "};
+    // Tímabundin lausn til að birta skýringu á eiginleikum áfanga í ExpandableListView
+    private static final String[] headers = {"Áfangi: ", "Áfangaheiti: ", "ECTS: ", "Önn: ",
+            "Námstig: ", "Svið: ", "Deild: ",
+            "Tungumál: ", "Umsjón: ", "Kennarar: ", "Kennsluár: ",
+            "Kennt: ", "Námskeiðsnúmer: ", "Nauðsynlegar forkröfur: ", "Æskilegar forkröfur: ",
+            "Frekari upplýsingar um áfangann: "};
 
     /**
      * Private smiður sem er aðeins kallað í einu sinni því CourseCatalogService er Singleton
@@ -71,7 +75,8 @@ public class CourseCatalogService {
         // Endurstilla listann
         if (!allCourses.isEmpty()) { allCourses.clear(); }
         getData(coursedata);
-        filteredCatalog = allCourses;
+        ArrayList<Course> temp = allCourses;
+        filteredCatalog = temp;
 
         // Lúppum í gegnum Hashmap-ið og filterum eftir öllu sem var sett inn
         // Key er fallakallið, value eru síurnar sjálfar
@@ -200,21 +205,14 @@ public class CourseCatalogService {
      * @return Síuðum lista
      */
     public static ArrayList<Course> filterBySemester(ArrayList<String> filter) {
-        // Bý til temp lista til að geta loop-að í gegnum
+        // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
-            temp.add(course);
-        }
-
-        for(Course course: temp) {
-            boolean isSemester = false;
             for (String semester: filter) {
-                if (course.getSemester().equals(semester)) { isSemester = true; }
+                if (course.getSemester().equals(semester)) { temp.add(course); }
             }
-            if (!isSemester) { filteredCatalog.remove(course); }
-
         }
-        return filteredCatalog;
+        return temp;
     }
 
     /**
@@ -243,9 +241,6 @@ public class CourseCatalogService {
      */
     public static ArrayList<Course> filterByField(ArrayList<String> filterList) {
         String filter = filterList.get(0);
-        // Default val er öll svið og þá þarf ekki að lúppa í gegnum alla áfanga
-        if (filter.equals("Öll svið")) {return filteredCatalog;}
-
         // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
@@ -266,9 +261,6 @@ public class CourseCatalogService {
      */
     public static ArrayList<Course> filterByDept(ArrayList<String> filterList) {
         String filter = filterList.get(0);
-        // Default val er allar deildir og þá þarf ekki að lúppa í gegnum alla áfanga
-        if (filter.equals("Allar deildir")) {return filteredCatalog;}
-
         // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
@@ -287,20 +279,14 @@ public class CourseCatalogService {
      * @return Síuðum lista
      */
     public static ArrayList<Course> filterByLanguage(ArrayList<String> filter) {
-        // Bý til temp lista til að geta loop-að í gegnum
+        // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
-            temp.add(course);
-        }
-
-        for(Course course: temp) {
-            boolean isLanguage = false;
             for (String language: filter) {
-                if (course.getLanguage().equals(language)) { isLanguage = true; }
+                if (course.getLanguage().equals(language)) { temp.add(course); }
             }
-            if (!isLanguage) { filteredCatalog.remove(course);}
         }
-        return filteredCatalog;
+        return temp;
     }
 
 }
