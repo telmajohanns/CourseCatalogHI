@@ -161,19 +161,37 @@ public class CourseCatalogService {
 
         for (Course course: filteredCatalog) {
             List<String> courseDetails = new ArrayList<>();
-            String[] courseString = {
-                    course.getAcronym(), course.getTitle(), course.getEcts().toString(),
-                    course.getSemester(), course.getEduLevel(), course.getField(),
-                    course.getDept(), course.getLanguage(), course.getMainTeachers(),
-                    course.getTeachers(), course.getYear(), course.getTaught().toString(),
-                    course.getCourseID(), course.getMandatoryPrereq(), course.getReccomPrereq(),
-                    course.getHyperlink()
-            };
-            for (int i = 0; i < courseString.length; i++) {
-                if (!courseString[i].equals("BLANK")) {
-                    courseDetails.add(headers[i]+courseString[i]);
+            if (course.getTaught()) {
+                String[] courseString = {
+                        course.getAcronym(), course.getTitle(), course.getEcts().toString(),
+                        course.getSemester(), course.getEduLevel(), course.getField(),
+                        course.getDept(), course.getLanguage(), course.getMainTeachers(),
+                        course.getTeachers(), course.getYear(), "Já",
+                        course.getCourseID(), course.getMandatoryPrereq(), course.getReccomPrereq(),
+                        course.getHyperlink()
+                };
+                for (int i = 2; i < courseString.length; i++) {
+                    if (!courseString[i].equals("BLANK")) {
+                        courseDetails.add(headers[i]+courseString[i]);
+                    }
                 }
             }
+            else {
+                String[] courseString = {
+                        course.getAcronym(), course.getTitle(), course.getEcts().toString(),
+                        course.getSemester(), course.getEduLevel(), course.getField(),
+                        course.getDept(), course.getLanguage(), course.getMainTeachers(),
+                        course.getTeachers(), course.getYear(), "Nei",
+                        course.getCourseID(), course.getMandatoryPrereq(), course.getReccomPrereq(),
+                        course.getHyperlink()
+                };
+                for (int i = 2; i < courseString.length; i++) {
+                    if (!courseString[i].equals("BLANK")) {
+                        courseDetails.add(headers[i]+courseString[i]);
+                    }
+                }
+            }
+
             expandableDetailList.put(course.getAcronym() + ": " + course.getTitle(), courseDetails);
         }
         return expandableDetailList;

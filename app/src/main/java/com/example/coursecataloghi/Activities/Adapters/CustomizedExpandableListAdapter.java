@@ -1,8 +1,13 @@
 package com.example.coursecataloghi.Activities.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.provider.Browser;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +63,10 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
+
+        // Gera hlekkinn á kennsluskrá HÍ aðgengilegan
+        Linkify.addLinks(expandedListTextView, Linkify.WEB_URLS);
+        expandedListTextView.setLinksClickable(true);
 
         return convertView;
     }
