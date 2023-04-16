@@ -31,9 +31,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
     Button filter;
     Button logOutBtn;
     SharedPreferences sharedPref;
-    // búa til catalogservice7
-    // inní oncreate sem kallar á getinstance, með r resource skránna sem inntak
-    //CourseCatalogService courseCatalogService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,6 @@ public class CourseCatalogActivity extends AppCompatActivity {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 filterCatalog();
             }
         });
@@ -62,7 +59,6 @@ public class CourseCatalogActivity extends AppCompatActivity {
         if (!CourseCatalogService.isCsInitiated()) {
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
 
-            //CourseCatalogService courseCatalogService = CourseCatalogService.getInstance(coursedata);
             System.out.println("Sækja org data");
             try {
                 CourseCatalogService.getInstance(coursedata);
@@ -74,7 +70,6 @@ public class CourseCatalogActivity extends AppCompatActivity {
         else {
             System.out.println("Sækja filtered data");
 
-            //expandableDetailList.clear();
             expandableDetailList = CourseCatalogService.getFilteredData();
         }
 
@@ -83,6 +78,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
         expandableTitleList = new ArrayList<String>(expandableDetailList.keySet());
         expandableListAdapter = new CustomizedExpandableListAdapter(this, expandableTitleList, expandableDetailList);
         expandableListViewExample.setAdapter(expandableListAdapter);
+
 
         // This method is called when the group is expanded
         expandableListViewExample.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {

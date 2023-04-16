@@ -33,6 +33,10 @@ public class CourseCatalogService {
             "Kennt: ", "Námskeiðsnúmer: ", "Nauðsynlegar forkröfur: ", "Æskilegar forkröfur: ",
             "Frekari upplýsingar um áfangann: "};
 
+    public static ArrayList<Course> getAllCourses() {
+        return allCourses;
+    }
+
     /**
      * Private smiður sem er aðeins kallað í einu sinni því CourseCatalogService er Singleton
      * @param coursedata

@@ -1,6 +1,7 @@
 package com.example.coursecataloghi.Activities.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +10,21 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.coursecataloghi.R;
+import com.example.coursecataloghi.Services.CourseCatalogService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import Entities.Course;
 
 public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableTitleList;
     private HashMap<String, List<String>> expandableDetailList;
+    private TextView listTitleTextView;
 
     // constructor
     public CustomizedExpandableListAdapter(Context context, List<String> expandableListTitle,
@@ -51,8 +58,10 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
+
         return convertView;
     }
+
 
     @Override
     // Gets the number of children in a specified group.
@@ -83,15 +92,26 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
     // This View is only for the group--the Views for the group's children
     // will be fetched using getChildView()
     public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
         String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
-        TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
+        listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
+        listTitleTextView.setTextColor(Color.BLACK);
+
+        Course current = null;
+        String acro = listTitle.substring(0,7);
+
+        for (Course course: CourseCatalogService.getAllCourses()){
+            if (course.getAcronym().contains(acro) && !course.getTaught()) { current = course; }
+        }
+        if (current != null && !current.getTaught()) { listTitleTextView.setTextColor(Color.RED); }
+
         return convertView;
     }
 

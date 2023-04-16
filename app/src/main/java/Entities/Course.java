@@ -119,6 +119,10 @@ public class Course {
         return courseID;
     }
 
+    public Course getCourseByAcronym(String acronym) {
+        return this;
+    }
+
     public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
