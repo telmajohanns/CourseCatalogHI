@@ -41,8 +41,8 @@ public class User {
         return favorites;
     }
 
-    public void addCourseToFav(String course) {
-        favorites.add(course);
+    public void addCourseToFav(String courseAcro) {
+        favorites.add(courseAcro);
     }
     public void setFavorites(ArrayList<String> favorites) {
         this.favorites = favorites;

@@ -75,7 +75,7 @@ public class CourseCatalogService {
      * @throws IllegalAccessException
      * @throws IOException
      */
-    public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap, InputStream coursedata) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException {
+    public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap, InputStream coursedata) throws IOException {
         // Endurstilla listann
         if (!allCourses.isEmpty()) { allCourses.clear(); }
         getData(coursedata);
@@ -87,14 +87,16 @@ public class CourseCatalogService {
         for(Map.Entry<String, ArrayList<String>> eachFilter: filterMap.entrySet()) {
             String key = eachFilter.getKey();
             ArrayList<String> value = eachFilter.getValue();
-
-            // Kalla á rétt föll eftir því hvaða sía var sett á
-            if (key.equals("filterByText")) { filteredCatalog = filterByText(value); }
-            if (key.equals("filterBySemester")) { filteredCatalog = filterBySemester(value); }
-            if (key.equals("filterByEduLevel")) { filteredCatalog = filterByEduLevel(value); }
-            if (key.equals("filterByField")) { filteredCatalog = filterByField(value); }
-            if (key.equals("filterByDept")) { filteredCatalog = filterByDept(value); }
-            if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value); }
+            if (key.equals("filterByFavorites")) {filteredCatalog = filterByFavorites(value); }
+            else {
+                // Kalla á rétt föll eftir því hvaða sía var sett á
+                if (key.equals("filterByText")) { filteredCatalog = filterByText(value); }
+                if (key.equals("filterBySemester")) { filteredCatalog = filterBySemester(value); }
+                if (key.equals("filterByEduLevel")) { filteredCatalog = filterByEduLevel(value); }
+                if (key.equals("filterByField")) { filteredCatalog = filterByField(value); }
+                if (key.equals("filterByDept")) { filteredCatalog = filterByDept(value); }
+                if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value); }
+            }
         }
         return filteredCatalog;
     }
@@ -195,6 +197,17 @@ public class CourseCatalogService {
             expandableDetailList.put(course.getAcronym() + ": " + course.getTitle(), courseDetails);
         }
         return expandableDetailList;
+    }
+
+    public static ArrayList<Course> filterByFavorites(ArrayList<String> favoritesList) {
+        // Bý til tóman lista til að bæta áföngum í sem passa við filtera
+        ArrayList<Course> temp = new ArrayList<>();
+        for(Course course: filteredCatalog) {
+            for (String acro: favoritesList) {
+                if (course.getAcronym().equals(acro)) { temp.add(course); }
+            }
+        }
+        return temp;
     }
 
     /**

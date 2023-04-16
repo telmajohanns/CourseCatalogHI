@@ -97,8 +97,8 @@ public class NetworkManager {
         data.createUser(uName, pwd);
     }
 
-    public void addToFavorites(String userName, String courseID) {
-        String logInUrl = "https://course-catalog-ksot.onrender.com/addtofav/" + userName + "/" + courseID;
+    public void addToFavorites(String userName, String courseAcro) {
+        String logInUrl = "https://course-catalog-ksot.onrender.com/addtofav/" + userName + "/" + courseAcro;
 
         try {
             OkHttpClient client = new OkHttpClient();

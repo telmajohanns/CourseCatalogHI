@@ -1,12 +1,8 @@
 package com.example.coursecataloghi.Activities.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.provider.Browser;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +13,8 @@ import android.widget.TextView;
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.CourseCatalogService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import Entities.Course;
 

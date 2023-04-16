@@ -2,34 +2,28 @@ package com.example.coursecataloghi.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.CourseCatalogService;
+import com.example.coursecataloghi.Services.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Entities.Course;
-
 public class FilterActivity extends AppCompatActivity {
 
-    EditText filter_teacher_course;
-    Button filter_favorites, filter_confirm_button, filter_cancel_button;
-    CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
-    Spinner filter_eduLevel, filter_dept, filter_field;
+    private EditText filter_teacher_course;
+    private Button filter_favorites, filter_confirm_button, filter_cancel_button;
+    private CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
+    private Spinner filter_eduLevel, filter_dept, filter_field;
 
 
     @Override
@@ -64,13 +58,36 @@ public class FilterActivity extends AppCompatActivity {
                 cancelFilter();
             }
         });
+        filter_favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                favorites();
+            }
+        });
 
     }
-    private void confirmFilter(){
-        //InputStream coursedata = getResources().openRawResource(R.raw.course_data);
-        try {
 
-            //CourseCatalogService cService = CourseCatalogService.getInstance(coursedata);
+    private void favorites() {
+        UserService userService = new UserService();
+        // Þurfum að kalla hérna á userService.getFavorites einhvern veginn til að fá listann af favorites áföngum
+        ArrayList<String> favoritesList = new ArrayList<>(); // og setja það í breytuna favoritesList, þá ætti allt að vera rétt
+        //Tímabundnir favorites áfangar
+        favoritesList.add("TÖL101G");
+        favoritesList.add("ASK032M");
+        HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
+        filterMap.put("filterByFavorites", favoritesList);
+        InputStream coursedata = getResources().openRawResource(R.raw.course_data);
+        try {
+            CourseCatalogService.doFiltering(filterMap, coursedata);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+
+        Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
+        startActivity(switchActivityIntent);
+    }
+    private void confirmFilter(){
+        try {
             HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
 
             // check á öllum gildunum
@@ -111,13 +128,10 @@ public class FilterActivity extends AppCompatActivity {
 
 
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
-            //fleiri if setningar
-            ArrayList<Course> filteredList = CourseCatalogService.doFiltering(filterMap, coursedata);
-//Vantar að setja í breytu til að birta
+            CourseCatalogService.doFiltering(filterMap, coursedata);
             Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
             startActivity(switchActivityIntent);
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
-                 IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
