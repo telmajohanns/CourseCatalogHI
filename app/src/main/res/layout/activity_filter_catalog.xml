@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Íslenska"
+        android:text="@string/slenska"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -105,7 +105,7 @@
         android:id="@+id/filter_EN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enska"
+        android:text="@string/enska"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter_IS" />
 
@@ -113,7 +113,7 @@
         android:id="@+id/filter_ISEN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Íslenska/enska"
+        android:text="@string/slenska_enska"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter_EN" />
 
@@ -152,5 +152,15 @@
         android:text="@string/language"
         app:layout_constraintStart_toStartOf="@+id/filter_IS"
         app:layout_constraintTop_toBottomOf="@+id/filter_summer" />
+
+    <Spinner
+        android:id="@+id/sortByECTS"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_ISEN"
+        android:entries="@array/sortByECTS"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

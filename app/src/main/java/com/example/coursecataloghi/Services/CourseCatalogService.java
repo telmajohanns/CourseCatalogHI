@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +97,17 @@ public class CourseCatalogService {
                 if (key.equals("filterByEduLevel")) { filteredCatalog = filterByEduLevel(value); }
                 if (key.equals("filterByField")) { filteredCatalog = filterByField(value); }
                 if (key.equals("filterByDept")) { filteredCatalog = filterByDept(value); }
-                if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value); }
+                if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value);}
+
+            }
+            if (key.equals("sortByECTS")) {
+                if (value.get(0).equals("Í hækkandi röð")) {
+                    Collections.sort(filteredCatalog);
+                }
+                else {
+                    filteredCatalog.sort(Collections.reverseOrder());
+                }
+                //filteredCatalog = sortByECTS(value);
             }
         }
         return filteredCatalog;
@@ -129,13 +141,13 @@ public class CourseCatalogService {
 
                 //Ef áfangi er kenndur þá er isTaught sett sem true í course hlutnum
                 if (row[11].equals("Já")) {
-                    course = new Course(row[0], row[1],Double.parseDouble(row[2]),
+                    course = new Course(row[0], row[1],Integer.parseInt(row[2]),
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
                             true,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
                 }
                 else if(row[11].equals("Nei")) { //Annars er isTaught sett sem false
-                    course = new Course(row[0], row[1],Double.parseDouble(row[2]),
+                    course = new Course(row[0], row[1],Integer.parseInt(row[2]),
                             row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],
                             false,row[12],row[13],row[14],row[15]);
                     allCourses.add(course);
@@ -165,7 +177,7 @@ public class CourseCatalogService {
             List<String> courseDetails = new ArrayList<>();
             if (course.getTaught()) {
                 String[] courseString = {
-                        course.getAcronym(), course.getTitle(), course.getEcts().toString(),
+                        course.getAcronym(), course.getTitle(), String.valueOf(course.getEcts()),
                         course.getSemester(), course.getEduLevel(), course.getField(),
                         course.getDept(), course.getLanguage(), course.getMainTeachers(),
                         course.getTeachers(), course.getYear(), "Já",
@@ -180,7 +192,7 @@ public class CourseCatalogService {
             }
             else {
                 String[] courseString = {
-                        course.getAcronym(), course.getTitle(), course.getEcts().toString(),
+                        course.getAcronym(), course.getTitle(), String.valueOf(course.getEcts()),
                         course.getSemester(), course.getEduLevel(), course.getField(),
                         course.getDept(), course.getLanguage(), course.getMainTeachers(),
                         course.getTeachers(), course.getYear(), "Nei",
@@ -306,6 +318,28 @@ public class CourseCatalogService {
             if (!course.getDept().equals(filter)) { filteredCatalog.remove(course); }
         }
         return filteredCatalog;
+    }
+
+    public static ArrayList<Course> sortByECTS(ArrayList<String> sortList) {
+        String sort = sortList.get(0);
+        //ArrayList<Course> temp = new ArrayList<>();
+        /*for(Course course: filteredCatalog) {
+            temp.add(course);
+        }*/
+        if (sort.equals("Í hækkandi röð")) {
+            System.out.println(sort);
+            //Collections.sort(temp);
+            Collections.sort(filteredCatalog);
+        } else if (sort.equals("Í lækkandi röð")) {
+            filteredCatalog.sort(Comparator.reverseOrder());
+            // temp.sort(Collections.reverseOrder());
+        }
+        for(Course course : filteredCatalog) {
+            System.out.println("ECTS: " + course.getEcts());
+        }
+
+        return filteredCatalog;
+
     }
 
     /**

@@ -22,4 +22,7 @@
     <string name="cancel">Hætta við</string>
     <string name="language">Tungumál</string>
     <string name="course_or_teacher">Áfangi eða kennari</string>
+    <string name="slenska_enska">Íslenska/enska</string>
+    <string name="enska">Enska</string>
+    <string name="slenska">Íslenska</string>
 </resources>

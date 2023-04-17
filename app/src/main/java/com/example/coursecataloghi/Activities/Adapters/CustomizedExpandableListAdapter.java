@@ -61,6 +61,9 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         // Gera hlekkinn á kennsluskrá HÍ aðgengilegan
         Linkify.addLinks(expandedListTextView, Linkify.WEB_URLS);
         expandedListTextView.setLinksClickable(true);
+        if (isLastChild) {
+
+        }
 
         return convertView;
     }
@@ -106,6 +109,7 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
         listTitleTextView.setTextColor(Color.BLACK);
+
 
         Course current = null;
         String acro = listTitle.substring(0,7);

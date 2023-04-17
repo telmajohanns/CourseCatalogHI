@@ -28,4 +28,9 @@
         <item>Líf- og umhverfisvísindadeild</item>
         <item>Jarðvísindadeild</item>
     </string-array>
+    <string-array name="sortByECTS">
+        <item>Röðun lista eftir fjölda ECTS</item>
+        <item>Í hækkandi röð</item>
+        <item>Í lækkandi röð</item>
+    </string-array>
 </resources>

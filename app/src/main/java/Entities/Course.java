@@ -1,10 +1,10 @@
 package Entities;
 
-public class Course {
+public class Course implements Comparable<Course>{
 
     private String acronym;
     private String title;
-    private Double ects;
+    private int ects;
     private String semester;
     private String eduLevel;
     private String field;
@@ -35,11 +35,11 @@ public class Course {
         this.title = title;
     }
 
-    public Double getEcts() {
+    public int getEcts() {
         return ects;
     }
 
-    public void setEcts(Double ects) {
+    public void setEcts(int ects) {
         this.ects = ects;
     }
 
@@ -151,7 +151,7 @@ public class Course {
         this.reccomPrereq = reccomPrereq;
     }
 
-    public Course(String acronym, String title, Double ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String mandatoryPrereq, String reccomPrereq, String hyperlink) {
+    public Course(String acronym, String title, int ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String mandatoryPrereq, String reccomPrereq, String hyperlink) {
         this.acronym = acronym;
         this.title = title;
         this.ects = ects;
@@ -170,7 +170,7 @@ public class Course {
         this.hyperlink = hyperlink;
     }
 
-    public Course(String acronym, String title, Double ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String hyperlink) {
+    public Course(String acronym, String title, int ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String hyperlink) {
         this.acronym = acronym;
         this.title = title;
         this.ects = ects;
@@ -185,5 +185,10 @@ public class Course {
         this.isTaught = isTaught;
         this.courseID = courseID;
         this.hyperlink = hyperlink;
+    }
+
+    @Override
+    public int compareTo(Course course) {
+        return Integer.compare(this.ects, course.getEcts());
     }
 }

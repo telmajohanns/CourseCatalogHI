@@ -1,5 +1,6 @@
 package com.example.coursecataloghi.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +24,7 @@ public class FilterActivity extends AppCompatActivity {
     private EditText filter_teacher_course;
     private Button filter_favorites, filter_confirm_button, filter_cancel_button;
     private CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
-    private Spinner filter_eduLevel, filter_dept, filter_field;
+    private Spinner filter_eduLevel, filter_dept, filter_field, sortByECTS;
 
 
     @Override
@@ -43,6 +44,7 @@ public class FilterActivity extends AppCompatActivity {
         filter_eduLevel = (Spinner) findViewById(R.id.filter_eduLevel);
         filter_dept = (Spinner) findViewById(R.id.filter_dept);
         filter_field = (Spinner) findViewById(R.id.filter_field);
+        sortByECTS = (Spinner) findViewById(R.id.sortByECTS);
 
 
         filter_confirm_button.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +126,11 @@ public class FilterActivity extends AppCompatActivity {
                 ArrayList<String> filterList = new ArrayList<>();
                 filterList.add(filter_field.getSelectedItem().toString());
                 filterMap.put("filterByField", filterList);
+            }
+            if (!sortByECTS.getSelectedItem().toString().equals("Röðun lista eftir fjölda ECTS")) {
+                ArrayList<String> sortList = new ArrayList<>();
+                sortList.add(sortByECTS.getSelectedItem().toString());
+                filterMap.put("sortByECTS", sortList);
             }
 
 
