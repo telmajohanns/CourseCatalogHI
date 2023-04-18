@@ -72,9 +72,6 @@ public class CourseCatalogService {
      * @param filterMap Hashmap af fallaköllum og filteringum
      * @param coursedata
      * @return
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
      * @throws IOException
      */
     public static ArrayList<Course> doFiltering(HashMap<String, ArrayList<String>> filterMap, InputStream coursedata) throws IOException {
@@ -100,15 +97,7 @@ public class CourseCatalogService {
                 if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value);}
 
             }
-            if (key.equals("sortByECTS")) {
-                if (value.get(0).equals("Í hækkandi röð")) {
-                    Collections.sort(filteredCatalog);
-                }
-                else {
-                    filteredCatalog.sort(Collections.reverseOrder());
-                }
-                //filteredCatalog = sortByECTS(value);
-            }
+            if (key.equals("sortByECTS")) { filteredCatalog = sortByECTS(value); }
         }
         return filteredCatalog;
     }
@@ -320,23 +309,16 @@ public class CourseCatalogService {
         return filteredCatalog;
     }
 
+    /**
+     * Fall sem raðar listanum eftir fjölda ECTS, annað hvort í hækkandi eða lækkandi röð
+     * eftir hvað notandinn valdi
+     * @param sortList Val notandans, hvort það væri í hækkandi eða lækkandi röð
+     * @return
+     */
     public static ArrayList<Course> sortByECTS(ArrayList<String> sortList) {
         String sort = sortList.get(0);
-        //ArrayList<Course> temp = new ArrayList<>();
-        /*for(Course course: filteredCatalog) {
-            temp.add(course);
-        }*/
-        if (sort.equals("Í hækkandi röð")) {
-            System.out.println(sort);
-            //Collections.sort(temp);
-            Collections.sort(filteredCatalog);
-        } else if (sort.equals("Í lækkandi röð")) {
-            filteredCatalog.sort(Comparator.reverseOrder());
-            // temp.sort(Collections.reverseOrder());
-        }
-        for(Course course : filteredCatalog) {
-            System.out.println("ECTS: " + course.getEcts());
-        }
+        if (sort.equals("Í hækkandi röð")) { Collections.sort(filteredCatalog); }
+        else if (sort.equals("Í lækkandi röð")) { filteredCatalog.sort(Comparator.reverseOrder()); }
 
         return filteredCatalog;
 

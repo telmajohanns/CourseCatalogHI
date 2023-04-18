@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 public class FilterActivity extends AppCompatActivity {
 
+    // Viðmótshlutir
     private EditText filter_teacher_course;
     private Button filter_favorites, filter_confirm_button, filter_cancel_button;
     private CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
@@ -31,6 +32,7 @@ public class FilterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_catalog);
+
         filter_teacher_course = (EditText) findViewById(R.id.filter_teacher_course);
         filter_favorites = (Button) findViewById(R.id.filter_favorites);
         filter_confirm_button = (Button) findViewById(R.id.filter_confirm_button);
@@ -46,7 +48,7 @@ public class FilterActivity extends AppCompatActivity {
         filter_field = (Spinner) findViewById(R.id.filter_field);
         sortByECTS = (Spinner) findViewById(R.id.sortByECTS);
 
-
+        // Staðfest síu
         filter_confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,12 +56,15 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
+        // Hætt við síu
         filter_cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cancelFilter();
             }
         });
+
+        // Valið að sía eftir eigin áföngum
         filter_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +74,10 @@ public class FilterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Fall sem kallar á doFiltering í CourseCatalogService sem sækir
+     * uppáhalds áfanga notandans og skilar þeim til að birta þá.
+     */
     private void favorites() {
         UserService userService = new UserService();
         // Þurfum að kalla hérna á userService.getFavorites einhvern veginn til að fá listann af favorites áföngum
@@ -88,6 +97,13 @@ public class FilterActivity extends AppCompatActivity {
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
     }
+
+    /**
+     * Fall sem sækir allar síur sem notandinn valdi, setur þær í HashMap, þar sem lykillinn
+     * er nafnið á fallinu sem þarf að kalla á til að sía rétt, og gildið er ArrayList af
+     * strengjum sem á að sía eftir í lykilfallinu. Í lokin kallar fallið á doFiltering
+     * sem gerir alla þá virkni
+     */
     private void confirmFilter(){
         try {
             HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
@@ -143,6 +159,10 @@ public class FilterActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * Fall sem færir notandann aftur á CourseCatalogActivity síðuna án þess að sía neitt.
+     */
     private void cancelFilter(){
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);

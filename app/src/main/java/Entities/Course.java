@@ -2,6 +2,7 @@ package Entities;
 
 public class Course implements Comparable<Course>{
 
+    // Tilviksbreytur
     private String acronym;
     private String title;
     private int ects;
@@ -16,142 +17,98 @@ public class Course implements Comparable<Course>{
     private Boolean isTaught;
     private String courseID;
     private String hyperlink;
-    private String mandatoryPrereq = "";
-    private String reccomPrereq = "";
+    private String mandatoryPrereq;
+    private String reccomPrereq;
 
+    // Getterar til að sækja eiginleika Course hlutar
     public String getAcronym() {
         return acronym;
-    }
-
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public int getEcts() {
         return ects;
-    }
-
-    public void setEcts(int ects) {
-        this.ects = ects;
     }
 
     public String getSemester() {
         return semester;
     }
 
-    public void setSemester(String semester) {
-        this.semester = semester;
-    }
-
     public String getEduLevel() {
         return eduLevel;
-    }
-
-    public void setEduLevel(String eduLevel) {
-        this.eduLevel = eduLevel;
     }
 
     public String getField() {
         return field;
     }
 
-    public void setField(String field) {
-        this.field = field;
-    }
-
     public String getDept() {
         return dept;
-    }
-
-    public void setDept(String dept) {
-        this.dept = dept;
     }
 
     public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public String getMainTeachers() {
         return mainTeachers;
-    }
-
-    public void setMainTeachers(String mainTeachers) {
-        this.mainTeachers = mainTeachers;
     }
 
     public String getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(String teachers) {
-        this.teachers = teachers;
-    }
-
     public String getYear() {
         return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
     }
 
     public Boolean getTaught() {
         return isTaught;
     }
 
-    public void setTaught(Boolean taught) {
-        isTaught = taught;
-    }
-
     public String getCourseID() {
         return courseID;
-    }
-
-    public Course getCourseByAcronym(String acronym) {
-        return this;
-    }
-
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
     }
 
     public String getHyperlink() {
         return hyperlink;
     }
 
-    public void setHyperlink(String hyperlink) {
-        this.hyperlink = hyperlink;
-    }
-
     public String getMandatoryPrereq() {
         return mandatoryPrereq;
-    }
-
-    public void setMandatoryPrereq(String mandatoryPrereq) {
-        this.mandatoryPrereq = mandatoryPrereq;
     }
 
     public String getReccomPrereq() {
         return reccomPrereq;
     }
 
-    public void setReccomPrereq(String reccomPrereq) {
-        this.reccomPrereq = reccomPrereq;
-    }
 
-    public Course(String acronym, String title, int ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String mandatoryPrereq, String reccomPrereq, String hyperlink) {
+    /**
+     * Smiður sem býr til Course hlut
+     * @param acronym
+     * @param title
+     * @param ects
+     * @param semester
+     * @param eduLevel
+     * @param field
+     * @param dept
+     * @param language
+     * @param mainTeachers
+     * @param teachers
+     * @param year
+     * @param isTaught
+     * @param courseID
+     * @param mandatoryPrereq
+     * @param reccomPrereq
+     * @param hyperlink
+     */
+    public Course(String acronym, String title, int ects, String semester, String eduLevel,
+                  String field, String dept, String language, String mainTeachers, String teachers,
+                  String year, Boolean isTaught, String courseID, String mandatoryPrereq,
+                  String reccomPrereq, String hyperlink) {
         this.acronym = acronym;
         this.title = title;
         this.ects = ects;
@@ -170,23 +127,12 @@ public class Course implements Comparable<Course>{
         this.hyperlink = hyperlink;
     }
 
-    public Course(String acronym, String title, int ects, String semester, String eduLevel, String field, String dept, String language, String mainTeachers, String teachers, String year, Boolean isTaught, String courseID, String hyperlink) {
-        this.acronym = acronym;
-        this.title = title;
-        this.ects = ects;
-        this.semester = semester;
-        this.eduLevel = eduLevel;
-        this.field = field;
-        this.dept = dept;
-        this.language = language;
-        this.mainTeachers = mainTeachers;
-        this.teachers = teachers;
-        this.year = year;
-        this.isTaught = isTaught;
-        this.courseID = courseID;
-        this.hyperlink = hyperlink;
-    }
-
+    /**
+     * Fall til að geta borið saman Course hluti.
+     * Ber þá saman eftir fjölda ECTS
+     * @param course
+     * @return
+     */
     @Override
     public int compareTo(Course course) {
         return Integer.compare(this.ects, course.getEcts());

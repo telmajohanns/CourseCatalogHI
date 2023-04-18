@@ -24,13 +24,21 @@ import java.util.List;
 
 
 public class CourseCatalogActivity extends AppCompatActivity {
-    private ExpandableListView expandableListViewExample;
-    private ExpandableListAdapter expandableListAdapter;
-    private List<String> expandableTitleList;
-    private HashMap<String, List<String>> expandableDetailList;
+    // Viðmótshlutir
     private Button filter;
     private Button logOutBtn;
     private SharedPreferences sharedPref;
+    private ExpandableListView expandableListViewExample;
+
+    // Adapter til að birta listann og undirgögn í listanum rétt
+    private ExpandableListAdapter expandableListAdapter;
+    // Listi af strengjum sem eru titillinn á hverjum hlut/áfanga í listanum
+    private List<String> expandableTitleList;
+    // Hashmap þar sem lykillinn er titillinn á hlutnum/áfanganum og gildið er listi af strengjum
+    // sem eru nánari upplýsingar um hlutinn/áfangann og birtast þegar hann er opnaður í listanum
+    private HashMap<String, List<String>> expandableDetailList;
+
+
 
 
     @Override
@@ -45,12 +53,15 @@ public class CourseCatalogActivity extends AppCompatActivity {
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
 
+        // Skráir notandann út
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signOut();
             }
         });
+
+        // Kallar á filterCatalog() sem færir notandann á síusíðuna
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +69,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
             }
         });
 
+        // CourseCatalogService er Singleton, svo ef það er til þá viljum við gera annað
         if (!CourseCatalogService.isCsInitiated()) {
             InputStream coursedata = getResources().openRawResource(R.raw.course_data);
             try {
@@ -67,6 +79,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
             }
             expandableDetailList = CourseCatalogService.getExpandableDetailListAll();
         }
+        // Ef CourseCatalogService er til, þá sækja síuð gögn en ekki endurhlaða öllum listanum
         else { expandableDetailList = CourseCatalogService.getFilteredData(); }
 
         expandableTitleList = new ArrayList<String>(expandableDetailList.keySet());
@@ -74,11 +87,18 @@ public class CourseCatalogActivity extends AppCompatActivity {
         expandableListViewExample.setAdapter(expandableListAdapter);
 
     }
+
+    /**
+     * Fall sem færir notandann yfir á síusíðuna, FilterActivity
+     */
     private void filterCatalog() {
         Intent switchActivityIntent = new Intent(this, FilterActivity.class);
         startActivity(switchActivityIntent);
     }
 
+    /**
+     * Fall sem skráir notandann út og færir hann aftur á upphafs innskráningarsíðuna, MainActivity
+     */
     private void signOut(){
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("Username").commit();

@@ -58,12 +58,15 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
         expandedListTextView.setText(expandedListText);
 
+        expandedListTextView.setBackgroundColor(Color.WHITE);
+        if (expandedListText.contains("forkröfur: Já")) {
+            //Setja gulan bakgrunn ef það eru forkröfur fyrir áfangann
+            expandedListTextView.setBackgroundColor(Color.rgb(255,250,160));
+        }
+
         // Gera hlekkinn á kennsluskrá HÍ aðgengilegan
         Linkify.addLinks(expandedListTextView, Linkify.WEB_URLS);
         expandedListTextView.setLinksClickable(true);
-        if (isLastChild) {
-
-        }
 
         return convertView;
     }
@@ -109,7 +112,8 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
         listTitleTextView.setTextColor(Color.BLACK);
-
+        listTitleTextView.setBackgroundColor(Color.parseColor("#f0f0f0"));
+        listTitleTextView.setTextColor(Color.BLACK);
 
         Course current = null;
         String acro = listTitle.substring(0,7);
@@ -117,7 +121,11 @@ public class CustomizedExpandableListAdapter extends BaseExpandableListAdapter {
         for (Course course: CourseCatalogService.getAllCourses()){
             if (course.getAcronym().contains(acro) && !course.getTaught()) { current = course; }
         }
-        if (current != null && !current.getTaught()) { listTitleTextView.setTextColor(Color.RED); }
+        // Breyta lit á titli áfangans í listanum í rauðan ef hann er ekki kenndur
+        if (current != null && !current.getTaught()) {
+            listTitleTextView.setTextColor(Color.WHITE);
+            listTitleTextView.setBackgroundColor(Color.rgb(227,107,102));
+        }
 
         return convertView;
     }
