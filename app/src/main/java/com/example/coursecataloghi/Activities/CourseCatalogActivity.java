@@ -25,8 +25,7 @@ import java.util.List;
 
 public class CourseCatalogActivity extends AppCompatActivity {
     // Viðmótshlutir
-    private Button filter;
-    private Button logOutBtn;
+    private Button filter, logOutBtn, set_my_courses;
     private SharedPreferences sharedPref;
     private ExpandableListView expandableListViewExample;
 
@@ -49,6 +48,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
         expandableListViewExample = (ExpandableListView) findViewById(R.id.courseCatalogList);
         filter = (Button) findViewById(R.id.filter_catalog);
         logOutBtn = (Button) findViewById(R.id.logout_button);
+        set_my_courses = (Button) findViewById(R.id.set_my_courses);
 
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
@@ -66,6 +66,13 @@ public class CourseCatalogActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 filterCatalog();
+            }
+        });
+
+        set_my_courses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addToFavorites();
             }
         });
 
@@ -93,6 +100,10 @@ public class CourseCatalogActivity extends AppCompatActivity {
      */
     private void filterCatalog() {
         Intent switchActivityIntent = new Intent(this, FilterActivity.class);
+        startActivity(switchActivityIntent);
+    }
+    private void addToFavorites() {
+        Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
         startActivity(switchActivityIntent);
     }
 

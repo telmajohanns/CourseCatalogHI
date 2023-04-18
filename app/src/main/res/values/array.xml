@@ -33,4 +33,9 @@
         <item>Í hækkandi röð</item>
         <item>Í lækkandi röð</item>
     </string-array>
+    <string-array name="listOfCourses">
+        <item>Veldu áfanga</item>
+        <item>TÖL101G</item>
+        <item>HBV202G</item>
+    </string-array>
 </resources>

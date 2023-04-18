@@ -25,4 +25,10 @@
     <string name="slenska_enska">Íslenska/enska</string>
     <string name="enska">Enska</string>
     <string name="slenska">Íslenska</string>
+    <string name="velja_m_na_fanga">Velja mína áfanga</string>
+    <string name="breyta_m_num_f_ngum">Breyta mínum áföngum</string>
+    <string name="veldu_fangann_sem_vilt_b_ta_vi_e_a_fjarl_gja_r_num_f_ngum_og_smelltu_svo_quot_b_ta_vi_quot_e_a_quot_fjarl_gja_quot">Veldu áfangann sem þú vilt bæta við eða fjarlægja úr þínum áföngum, og smelltu svo á \"Bæta við\" eða \"Fjarlægja\"</string>
+    <string name="til_baka_kennsluskr">Til baka í kennsluskrá</string>
+    <string name="fjarlaegja">Fjarlægja</string>
+    <string name="baeta_vid">Bæta við</string>
 </resources>

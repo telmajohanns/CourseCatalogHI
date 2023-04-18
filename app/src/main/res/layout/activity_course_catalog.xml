@@ -8,27 +8,51 @@
     <ExpandableListView
         android:id="@+id/courseCatalogList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/filter_catalog"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:layout_alignTop="@id/filter_catalog"
-        android:layout_alignBottom="@id/logout_button"/>
+        android:layout_alignBottom="@id/bottom_buttons"
+        />
 
     <Button
         android:id="@+id/filter_catalog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
         android:text="@string/filter"
         android:layout_alignParentTop="true"/>
-
-    <Button
-        android:id="@+id/logout_button"
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_out"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/set_my_courses"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/velja_m_na_fanga" />
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/log_out" />
+    </LinearLayout>
+
+
+
+
+
 
 </RelativeLayout>
