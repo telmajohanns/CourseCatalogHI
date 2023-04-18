@@ -1,6 +1,8 @@
 package com.example.coursecataloghi.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coursecataloghi.R;
+import com.example.coursecataloghi.Services.UserService;
 
 import java.util.ArrayList;
 
@@ -17,11 +20,13 @@ public class AddFavoritesActivity extends AppCompatActivity {
     ArrayList<String> favoritesList = new ArrayList<>();
     private Spinner courses_drop_down;
     private Button add_favorites, rm_favorites, back_to_catalog;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_favorites);
+
 
         courses_drop_down = (Spinner) findViewById(R.id.courses_drop_down);
         add_favorites = (Button) findViewById(R.id.add_favorites);
@@ -53,11 +58,25 @@ public class AddFavoritesActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
 
+    public String getCurrentUser() {
+        // Sækja notandann sem er skráður inn
+        sharedPref = this.getSharedPreferences(
+                getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
+        String userName = (sharedPref.getString("Notandanafn", "Default_Value"));
+
+        return userName;
+    }
+
     public boolean addFavorites(String courseAcro) {
+        UserService userService = new UserService();
+        String userName = getCurrentUser();
+        System.out.println(userName);
+
         // Hér þurfum við að bæta courseAcro strengnum við í
         // favorites listann hjá notandanum
         if (favoritesList.isEmpty()) {
-            favoritesList.add(courseAcro);
+            userService.addToFavorites(userName, courseAcro);
+
             Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
             startActivity(switchActivityIntent);
             return true;
@@ -77,6 +96,8 @@ public class AddFavoritesActivity extends AppCompatActivity {
     }
 
     public boolean rmFavorites(String courseAcro) {
+        String userName = getCurrentUser();
+        System.out.println(userName);
         if (favoritesList.isEmpty()) {
             //Skilaboð um að það gekk ekki því listinn er tómur
             return false;

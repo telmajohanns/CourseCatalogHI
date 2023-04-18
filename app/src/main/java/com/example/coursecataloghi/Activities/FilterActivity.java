@@ -164,6 +164,14 @@ public class FilterActivity extends AppCompatActivity {
      * Fall sem færir notandann aftur á CourseCatalogActivity síðuna án þess að sía neitt.
      */
     private void cancelFilter(){
+        HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
+        InputStream coursedata = getResources().openRawResource(R.raw.course_data);
+        try {
+            CourseCatalogService.doFiltering(filterMap, coursedata);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
     }
