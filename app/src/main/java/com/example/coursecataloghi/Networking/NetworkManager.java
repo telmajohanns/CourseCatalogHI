@@ -2,6 +2,8 @@ package com.example.coursecataloghi.Networking;
 
 import android.app.AlertDialog;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -62,7 +64,7 @@ public class NetworkManager {
         //stormy appið frá Sigga - það er android app
 
         //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String logInUrl = "https://course-catalog-ksot.onrender.com/signup/" + username + "/" + password;
+        String logInUrl = "http://localhost:4000/" + username + "/" + password;
 
         try {
             OkHttpClient client = new OkHttpClient();
@@ -79,6 +81,7 @@ public class NetworkManager {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     //höndla responsið sem kemur frá bakenda
+
 
                 }
             });
