@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import com.example.coursecataloghi.Networking.NetworkManager;
 import com.example.coursecataloghi.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import Entities.Data;
 import Entities.User;
 
@@ -40,5 +43,10 @@ public class UserService {
 
     public void addToFavorites(String user, String courseAcro){
         netMan.addToFavorites(user, courseAcro);
+    }
+
+    public ArrayList<String> getFavorites(String user){
+        ArrayList<String> fav = netMan.getFavorites(user);
+        return fav;
     }
 }

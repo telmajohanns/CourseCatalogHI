@@ -2,9 +2,13 @@ package com.example.coursecataloghi.Networking;
 
 import android.app.AlertDialog;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Entities.Data;
@@ -123,5 +127,42 @@ public class NetworkManager {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public ArrayList<String> getFavorites(String userName) {
+        String logInUrl = "https://course-catalog-ksot.onrender.com/getfav/" + userName;
+        ArrayList<String> fav = new ArrayList<String>();
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder().url(logInUrl).build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //höndla failed connection
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    //höndla responsið sem kemur frá bakenda
+                    String svar = response.body().toString();
+                    try {
+                        JSONObject jsonObject = new JSONObject(svar);
+                        Gson gson = new Gson();
+                        String[] favlisti = gson.fromJson(String.valueOf(gson), String[].class);
+                        for (String afangi: favlisti) {
+                            fav.add(afangi);
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return fav;
     }
 }
