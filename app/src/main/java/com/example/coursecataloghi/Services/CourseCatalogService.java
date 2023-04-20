@@ -200,7 +200,7 @@ public class CourseCatalogService {
         return expandableDetailList;
     }
 
-    public static ArrayList<Course> filterByFavorites(ArrayList<String> favoritesList) {
+    private static ArrayList<Course> filterByFavorites(ArrayList<String> favoritesList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
@@ -216,7 +216,7 @@ public class CourseCatalogService {
      * @param filterList Sía
      * @return Síuðum lista
      */
-    public static ArrayList<Course> filterByText(ArrayList<String> filterList) {
+    private static ArrayList<Course> filterByText(ArrayList<String> filterList) {
         // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
@@ -237,14 +237,14 @@ public class CourseCatalogService {
 
     /**
      * Fall sem síar listann eftir önn, Checkbox
-     * @param filter Sía, valdar annir í checkbox
+     * @param filterList Sía, valdar annir í checkbox
      * @return Síuðum lista
      */
-    public static ArrayList<Course> filterBySemester(ArrayList<String> filter) {
+    private static ArrayList<Course> filterBySemester(ArrayList<String> filterList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
-            for (String semester: filter) {
+            for (String semester: filterList) {
                 if (course.getSemester().equals(semester)) { temp.add(course); }
             }
         }
@@ -256,7 +256,7 @@ public class CourseCatalogService {
      * @param filterList Sía, valið námstig
      * @return Síuðum lista
      */
-    public static ArrayList<Course> filterByEduLevel(ArrayList<String> filterList) {
+    private static ArrayList<Course> filterByEduLevel(ArrayList<String> filterList) {
         // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
@@ -275,7 +275,7 @@ public class CourseCatalogService {
      * @param filterList Sía, valið svið
      * @return Síuðum lista
      */
-    public static ArrayList<Course> filterByField(ArrayList<String> filterList) {
+    private static ArrayList<Course> filterByField(ArrayList<String> filterList) {
         String filter = filterList.get(0);
         // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
@@ -295,7 +295,7 @@ public class CourseCatalogService {
      * @param filterList Sía, valin deild
      * @return Síuðum lista
      */
-    public static ArrayList<Course> filterByDept(ArrayList<String> filterList) {
+    private static ArrayList<Course> filterByDept(ArrayList<String> filterList) {
         String filter = filterList.get(0);
         // Bý til temp lista til að geta loop-að í gegnum
         ArrayList<Course> temp = new ArrayList<>();
@@ -315,7 +315,7 @@ public class CourseCatalogService {
      * @param sortList Val notandans, hvort það væri í hækkandi eða lækkandi röð
      * @return
      */
-    public static ArrayList<Course> sortByECTS(ArrayList<String> sortList) {
+    private static ArrayList<Course> sortByECTS(ArrayList<String> sortList) {
         String sort = sortList.get(0);
         if (sort.equals("Í hækkandi röð")) { Collections.sort(filteredCatalog); }
         else if (sort.equals("Í lækkandi röð")) { filteredCatalog.sort(Comparator.reverseOrder()); }
@@ -326,14 +326,14 @@ public class CourseCatalogService {
 
     /**
      * Fall sem síar listann eftir tungumáli
-     * @param filter Sía, valin tungumála checkbox
+     * @param filterList Sía, valin tungumála checkbox
      * @return Síuðum lista
      */
-    public static ArrayList<Course> filterByLanguage(ArrayList<String> filter) {
+    private static ArrayList<Course> filterByLanguage(ArrayList<String> filterList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
         for(Course course: filteredCatalog) {
-            for (String language: filter) {
+            for (String language: filterList) {
                 if (course.getLanguage().equals(language)) { temp.add(course); }
             }
         }
