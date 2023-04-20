@@ -68,7 +68,7 @@ public class NetworkManager {
         //stormy appið frá Sigga - það er android app
 
         //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String logInUrl = "http://localhost:4000/" + username + "/" + password;
+        String logInUrl = "http://localhost:4000/signup/" + username + "&" + password;
 
         try {
             OkHttpClient client = new OkHttpClient();
@@ -79,6 +79,7 @@ public class NetworkManager {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //höndla failed connection
+                    System.out.println("failaði að signa up");
                     e.printStackTrace();
                 }
 
@@ -105,7 +106,7 @@ public class NetworkManager {
     }
 
     public void addToFavorites(String userName, String courseAcro) {
-        String logInUrl = "https://course-catalog-ksot.onrender.com/addtofav/" + userName + "/" + courseAcro;
+        String logInUrl = "localhost:4000//favorites/" + userName + "&" + courseAcro;
 
         try {
             OkHttpClient client = new OkHttpClient();

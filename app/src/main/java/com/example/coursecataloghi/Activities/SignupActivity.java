@@ -42,7 +42,7 @@ public class SignupActivity extends AppCompatActivity {
                 String uName = newUsername.getText().toString();
                 String pwd = newPassword.getText().toString();
                 String pwdrt = newRetypePassword.getText().toString();
-                boolean userExists = userServ.doesUeserExsist(uName);
+                boolean userExists = false; //userServ.doesUeserExsist(uName);
                 if (!userExists){
                     if (pwd.equals(pwdrt)) {
                         userServ.createUser(uName, pwd);

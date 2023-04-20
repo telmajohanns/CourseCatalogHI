@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public void createUser(String uName, String pwd){
-        netMan.createUser(uName, pwd);
+        netMan.signUp(uName, pwd);
     }
 
     public void addToFavorites(String user, String courseAcro){
