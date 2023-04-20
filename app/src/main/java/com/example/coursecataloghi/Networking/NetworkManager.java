@@ -70,7 +70,7 @@ public class NetworkManager {
         //stormy appið frá Sigga - það er android app
 
         //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String signupUrl = "http://10.0.2.2:4000/signup/";
+        String signupUrl = "http://10.0.2.2:4000/signup/" + username + "&" + password;
         System.out.println(signupUrl);
         RequestBody formBody = new FormBody.Builder()
                 .add("username", username)
@@ -94,7 +94,7 @@ public class NetworkManager {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     //höndla responsið sem kemur frá bakenda
-                    System.out.println("Komst í signup!");
+                    System.out.println("Komst í signup!" + response.toString());
 
 
                 }
