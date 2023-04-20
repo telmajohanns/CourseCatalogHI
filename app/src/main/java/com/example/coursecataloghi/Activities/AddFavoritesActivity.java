@@ -17,10 +17,10 @@ import com.example.coursecataloghi.Services.UserService;
 import java.util.ArrayList;
 
 public class AddFavoritesActivity extends AppCompatActivity {
-    ArrayList<String> favoritesList = new ArrayList<>();
+    private ArrayList<String> favoritesList = new ArrayList<>();
     private Spinner courses_drop_down;
     private Button add_favorites, rm_favorites, back_to_catalog;
-    SharedPreferences sharedPref;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

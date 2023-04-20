@@ -15,7 +15,7 @@ public class UserService {
     // Favorites
     // Signup o.s.frv. á að fara hingað (úr mainactivity...)
     // beiðni á
-    NetworkManager netMan = new NetworkManager();
+    private NetworkManager netMan = new NetworkManager();
 
     public boolean logIn(String userName, String pwd){
         for (User u: netMan.getUsers()) {
@@ -45,8 +45,8 @@ public class UserService {
         netMan.addToFavorites(user, courseAcro);
     }
 
-    public ArrayList<String> getFavorites(String user){
-        ArrayList<String> fav = netMan.getFavorites(user);
+    public ArrayList<String> getFavorites(String username){
+        ArrayList<String> fav = netMan.getFavorites(username);
         return fav;
     }
 }

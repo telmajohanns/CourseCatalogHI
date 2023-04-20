@@ -20,12 +20,12 @@ import Entities.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText username, password;
-    Button loginButton;
+    private EditText username, password;
+    private Button loginButton;
 
-    TextView signUpButton;
-    SharedPreferences sharedPref;
-    UserService userServ;
+    private TextView signUpButton;
+    private SharedPreferences sharedPref;
+    private UserService userServ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

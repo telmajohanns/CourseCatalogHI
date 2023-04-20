@@ -27,7 +27,7 @@ public class NetworkManager {
     //signup fall, login fall, getfavorites, setfavorites, 3 post og 1 get
     //bara senda beiðni á bakendann, engin logík eða neitt, gerir ekkert með gögnin
 
-    Data data = Data.getInstance();
+    private Data data = Data.getInstance();
     // framendinn þarf ekki að tékka á hvort user sé til, það ætti allt að vera á bakendanum
     //ekkert user logic hér
     //login fall sem sendir network req á bakendann

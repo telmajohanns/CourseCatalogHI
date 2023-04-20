@@ -18,11 +18,11 @@ import Entities.User;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText newUsername, newPassword, newRetypePassword;
-    Button signupButton;
+    private EditText newUsername, newPassword, newRetypePassword;
+    private Button signupButton;
 
-    TextView goBackButton;
-    UserService userServ;
+    private TextView goBackButton;
+    private UserService userServ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

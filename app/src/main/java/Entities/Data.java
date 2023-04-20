@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Data {
     private static Data INSTANCE;
-    ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
     private Data() {
         users.add(new User("admin", "admin"));
         users.add(new User("sme", "sme"));
