@@ -15,8 +15,10 @@ import Entities.Data;
 import Entities.User;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -37,7 +39,7 @@ public class NetworkManager {
         //stormy appið frá Sigga - það er android app
 
         //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String logInUrl = "https://course-catalog-ksot.onrender.com/login/" + username + "/" + password;
+        String logInUrl = "http://10.0.2.2:4000/login/" + username;
 
         try {
             OkHttpClient client = new OkHttpClient();
@@ -68,13 +70,19 @@ public class NetworkManager {
         //stormy appið frá Sigga - það er android app
 
         //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String logInUrl = "http://localhost:4000/signup/" + username + "&" + password;
-
+        String signupUrl = "http://10.0.2.2:4000/signup/";
+        System.out.println(signupUrl);
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .add("password", password)
+                .build();
         try {
+            System.out.println("Komst í signup");
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(logInUrl).build();
+            Request request = new Request.Builder().url(signupUrl).post(formBody).build();
 
             Call call = client.newCall(request);
+
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -86,6 +94,7 @@ public class NetworkManager {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     //höndla responsið sem kemur frá bakenda
+                    System.out.println("Komst í signup!");
 
 
                 }
@@ -101,12 +110,12 @@ public class NetworkManager {
         return users;
     }
 
-    public void createUser(String uName, String pwd){
+    /*public void createUser(String uName, String pwd){
         data.createUser(uName, pwd);
-    }
+    }*/
 
     public void addToFavorites(String userName, String courseAcro) {
-        String logInUrl = "localhost:4000//favorites/" + userName + "&" + courseAcro;
+        String logInUrl = "http://localhost:4000/favorites/" + userName + "&" + courseAcro;
 
         try {
             OkHttpClient client = new OkHttpClient();
@@ -131,7 +140,7 @@ public class NetworkManager {
     }
 
     public ArrayList<String> getFavorites(String userName) {
-        String logInUrl = "https://course-catalog-ksot.onrender.com/getfav/" + userName;
+        String logInUrl = "http://localhost:4000/favorites/" + userName;
         ArrayList<String> fav = new ArrayList<String>();
         try {
             OkHttpClient client = new OkHttpClient();

@@ -29,13 +29,13 @@ public class UserService {
         return false;
     }
 
-    public boolean doesUeserExsist(String uName){
+    /*public boolean doesUeserExsist(String uName){
         for (User u: netMan.getUsers())
             if(uName.equals(u.getUsername())){
                 return true;
             }
         return false;
-    }
+    }*/
 
     public void createUser(String uName, String pwd){
         netMan.signUp(uName, pwd);
