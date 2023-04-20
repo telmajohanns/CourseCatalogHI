@@ -53,7 +53,7 @@ public class AddFavoritesActivity extends AppCompatActivity {
         });
     }
 
-    public void backToCatalog() {
+    private void backToCatalog() {
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
     }
@@ -67,7 +67,7 @@ public class AddFavoritesActivity extends AppCompatActivity {
         return userName;
     }
 
-    public boolean addFavorites(String courseAcro) {
+    private boolean addFavorites(String courseAcro) {
         UserService userService = new UserService();
         String userName = getCurrentUser();
         System.out.println(userName);
@@ -95,7 +95,7 @@ public class AddFavoritesActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean rmFavorites(String courseAcro) {
+    private boolean rmFavorites(String courseAcro) {
         String userName = getCurrentUser();
         System.out.println(userName);
         if (favoritesList.isEmpty()) {
