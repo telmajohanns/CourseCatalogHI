@@ -172,7 +172,7 @@ public class NetworkManager {
                             favorites.add(jsonObject.get("acronym").getAsString());
                         }
                     }
-                    else if(jsonElement.isJsonObject()) {
+                    if(jsonElement.isJsonObject()) {
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
                         System.out.println("Acro: " + jsonObject.get("acronym").getAsString());
                         favorites.add(jsonObject.get("acronym").getAsString());
@@ -180,7 +180,7 @@ public class NetworkManager {
                     latch.countDown();
                 }
             });
-            latch.await(30, TimeUnit.SECONDS); // Wait for the response with a timeout (e.g., 30 seconds)
+            latch.await(60, TimeUnit.SECONDS); // Wait for the response with a timeout (e.g., 30 seconds)
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -203,9 +203,10 @@ public class CourseCatalogService {
     private static ArrayList<Course> filterByFavorites(ArrayList<String> favoritesList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
-        for(Course course: filteredCatalog) {
-            for (String acro: favoritesList) {
-                if (course.getAcronym().equals(acro)) { temp.add(course); }
+
+        for(String acro: favoritesList) {
+            for (Course course: filteredCatalog) {
+                if (course.getAcronym().contains(acro)) { temp.add(course); }
             }
         }
         return temp;

@@ -89,8 +89,9 @@ public class FilterActivity extends AppCompatActivity {
         String userName = getCurrentUser();
         // Þurfum að kalla hérna á userService.getFavorites einhvern veginn til að fá listann af favorites áföngum
         ArrayList<String> favoritesList = userService.getFavorites(userName); // og setja það í breytuna favoritesList, þá ætti allt að vera rétt
-        //Tímabundnir favorites áfangar
-
+        for(String acro: favoritesList) {
+            System.out.println("Hlutir: " + acro);
+        }
         HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
         filterMap.put("filterByFavorites", favoritesList);
         InputStream coursedata = getResources().openRawResource(R.raw.course_data);

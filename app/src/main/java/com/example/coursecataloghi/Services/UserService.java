@@ -34,6 +34,9 @@ public class UserService {
 
     public boolean addToFavorites(String username, String courseAcro) {
         ArrayList<String> favorites = netMan.getFavorites(username);
+        if (courseAcro.contains("Veldu áfanga")) {
+            return false;
+        }
         if (favorites.isEmpty()) {
             System.out.println("Næ að bæta í tóman");
             netMan.addToFavorites(username, courseAcro);
@@ -41,9 +44,6 @@ public class UserService {
         }
         for (String acronym: favorites) {
             System.out.println(acronym);
-            if (acronym.equals("Veldu áfanga")) {
-                return false;
-            }
             if (acronym.equals(courseAcro)) {
                 return false;
             }
