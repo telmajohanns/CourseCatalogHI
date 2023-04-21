@@ -12,9 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coursecataloghi.R;
+import com.example.coursecataloghi.Services.CourseCatalogService;
 import com.example.coursecataloghi.Services.UserService;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddFavoritesActivity extends AppCompatActivity {
     private ArrayList<String> favoritesList = new ArrayList<>();
@@ -42,7 +46,11 @@ public class AddFavoritesActivity extends AppCompatActivity {
         add_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFavorites(courses_drop_down.getSelectedItem().toString());
+                try {
+                    addFavorites(courses_drop_down.getSelectedItem().toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         rm_favorites.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +62,14 @@ public class AddFavoritesActivity extends AppCompatActivity {
     }
 
     private void backToCatalog() {
+        HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
+        InputStream coursedata = getResources().openRawResource(R.raw.course_data);
+        try {
+            CourseCatalogService.doFiltering(filterMap, coursedata);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
     }
@@ -67,32 +83,22 @@ public class AddFavoritesActivity extends AppCompatActivity {
         return userName;
     }
 
-    private boolean addFavorites(String courseAcro) {
+    private boolean addFavorites(String courseAcro) throws IOException {
         UserService userService = new UserService();
         String userName = getCurrentUser();
         System.out.println(userName);
-
-        // Hér þurfum við að bæta courseAcro strengnum við í
-        // favorites listann hjá notandanum
-        if (favoritesList.isEmpty()) {
-            userService.addToFavorites(userName, courseAcro);
-
+        boolean addCourse = userService.addToFavorites(userName, courseAcro);
+        if (addCourse) {
             Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
             startActivity(switchActivityIntent);
             return true;
         }
-
-        // Hér ætti að vera notað listann frá notandanum
-        for (String string: favoritesList) {
-            if (string.equals(courseAcro)) {
-                // Skilaboð um að það gekk ekki því áfanginn er í favorites nú þegar
-                return false;
-            }
+        else {
+            Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
+            startActivity(switchActivityIntent);
+            return false;
         }
-        favoritesList.add(courseAcro);
-        Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
-        startActivity(switchActivityIntent);
-        return true;
+
     }
 
     private boolean rmFavorites(String courseAcro) {

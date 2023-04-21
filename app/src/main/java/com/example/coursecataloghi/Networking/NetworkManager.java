@@ -5,11 +5,16 @@ import android.app.AlertDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import Entities.Data;
 import Entities.User;
@@ -23,29 +28,23 @@ import okhttp3.Response;
 
 
 public class NetworkManager {
-    // get, post.... föll
-    //má vera eitt per eða mörg
-    // generic föll, taka inn beiðnina og hasmap af mögulegum breytum, un og pw
-    //signup fall, login fall, getfavorites, setfavorites, 3 post og 1 get
-    //bara senda beiðni á bakendann, engin logík eða neitt, gerir ekkert með gögnin
 
-    private Data data = Data.getInstance();
-    // framendinn þarf ekki að tékka á hvort user sé til, það ætti allt að vera á bakendanum
-    //ekkert user logic hér
-    //login fall sem sendir network req á bakendann
-    //add to fav og get fav
+    private static int respCode;
+    private ArrayList<String> favorites = new ArrayList<>();
+    public static int login(String username, String password) {
+        respCode = 0;
 
-    public boolean login(String username, String password) {
-        //stormy appið frá Sigga - það er android app
-
-        //Það vantar rétta slóð í staðinn fyrir "bakendi"
-        String logInUrl = "http://10.0.2.2:4000/login/" + username;
+        String logInUrl = "http://10.0.2.2:4000/login/" + username + "&" + password;
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", username).add("password", password)
+                .build();
 
         try {
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(logInUrl).build();
+            Request request = new Request.Builder().url(logInUrl).post(formBody).build();
 
             Call call = client.newCall(request);
+
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -55,29 +54,25 @@ public class NetworkManager {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    //höndla responsið sem kemur frá bakenda
-
+                    respCode = response.code();
                 }
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return true;
+
+        return respCode;
     }
 
 
     public boolean signUp(String username, String password) {
-        //stormy appið frá Sigga - það er android app
 
-        //Það vantar rétta slóð í staðinn fyrir "bakendi"
         String signupUrl = "http://10.0.2.2:4000/signup/" + username + "&" + password;
-        System.out.println(signupUrl);
         RequestBody formBody = new FormBody.Builder()
                 .add("username", username)
                 .add("password", password)
                 .build();
         try {
-            System.out.println("Komst í signup");
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(signupUrl).post(formBody).build();
 
@@ -87,14 +82,12 @@ public class NetworkManager {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //höndla failed connection
-                    System.out.println("failaði að signa up");
                     e.printStackTrace();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     //höndla responsið sem kemur frá bakenda
-                    System.out.println("Komst í signup!" + response.toString());
 
 
                 }
@@ -105,21 +98,19 @@ public class NetworkManager {
         return true;
     }
 
-    public ArrayList<User> getUsers(){
-        ArrayList<User>  users = data.getUsers();
-        return users;
-    }
 
-    /*public void createUser(String uName, String pwd){
-        data.createUser(uName, pwd);
-    }*/
 
-    public void addToFavorites(String userName, String courseAcro) {
-        String logInUrl = "http://localhost:4000/favorites/" + userName + "&" + courseAcro;
+    public void addToFavorites(String username, String acronym) {
+        String addFavUrl = "http://10.0.2.2:4000/favorites/" + username + "&" + acronym;
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .add("acronym", acronym)
+                .build();
+
 
         try {
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(logInUrl).build();
+            Request request = new Request.Builder().url(addFavUrl).post(formBody).build();
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
@@ -139,12 +130,16 @@ public class NetworkManager {
         }
     }
 
-    public ArrayList<String> getFavorites(String userName) {
-        String logInUrl = "http://localhost:4000/favorites/" + userName;
-        ArrayList<String> fav = new ArrayList<String>();
+    public ArrayList<String> getFavorites(String username) {
+        final CountDownLatch latch = new CountDownLatch(1);
+        String getFavUrl = "http://10.0.2.2:4000/favorites/" + username;
+        /*RequestBody formBody = new FormBody.Builder()
+                .add("username", username)
+                .build();*/
+
         try {
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().url(logInUrl).build();
+            Request request = new Request.Builder().url(getFavUrl).get().build();
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
@@ -156,23 +151,39 @@ public class NetworkManager {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    //höndla responsið sem kemur frá bakenda
-                    String svar = response.body().toString();
-                    try {
-                        JSONObject jsonObject = new JSONObject(svar);
-                        Gson gson = new Gson();
-                        String[] favlisti = gson.fromJson(String.valueOf(gson), String[].class);
-                        for (String afangi: favlisti) {
-                            fav.add(afangi);
-                        }
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                    if (response.code()==401) {
+                        return;
                     }
+
+                    //höndla responsið sem kemur frá bakenda
+                    String svar = response.body().string();
+                    //System.out.println("SVAR: " + svar + "code: " + response.code());
+                    //System.out.println(response);
+
+                    //JSONObject jsonObject = new JSONObject(svar);
+                    Gson gson = new Gson();
+                    JsonElement jsonElement = gson.fromJson(svar, JsonElement.class);
+                    if (jsonElement.isJsonArray()) {
+                        System.out.println(jsonElement.isJsonArray());
+                        JsonArray jsonArray = jsonElement.getAsJsonArray();
+                        for(JsonElement element: jsonArray) {
+                            JsonObject jsonObject = element.getAsJsonObject();
+                            System.out.println("Acro: " + jsonObject.get("acronym").getAsString());
+                            favorites.add(jsonObject.get("acronym").getAsString());
+                        }
+                    }
+                    else if(jsonElement.isJsonObject()) {
+                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+                        System.out.println("Acro: " + jsonObject.get("acronym").getAsString());
+                        favorites.add(jsonObject.get("acronym").getAsString());
+                    }
+                    latch.countDown();
                 }
             });
+            latch.await(30, TimeUnit.SECONDS); // Wait for the response with a timeout (e.g., 30 seconds)
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return fav;
+        return favorites;
     }
 }

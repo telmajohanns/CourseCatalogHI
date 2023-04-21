@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coursecataloghi.Networking.NetworkManager;
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.UserService;
 
@@ -52,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
                 //Græja hvað gerist þegar ýtt er á login
                 String uName = username.getText().toString();
                 String pwd = password.getText().toString();
-                boolean loggingIN = userServ.logIn(uName, pwd); //kall á userservice userservice.login(un, pw)....
-                if(loggingIN){ //halda þessu
+
+
+                int loggingIN = userServ.login(uName, pwd);
+
+                if(loggingIN == 200){
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString(getString(R.string.username), uName);
                     editor.apply();
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                    username.getText().clear(); //halda viðmótshlutum
+                    username.getText().clear();
                     password.getText().clear();
                 }
             }

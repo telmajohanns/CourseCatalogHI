@@ -1,7 +1,9 @@
 package com.example.coursecataloghi.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +29,7 @@ public class FilterActivity extends AppCompatActivity {
     private CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
     private Spinner filter_eduLevel, filter_dept, filter_field, sortByECTS;
 
-
+    private SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,11 @@ public class FilterActivity extends AppCompatActivity {
         filter_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                favorites();
+                try {
+                    favorites();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -78,13 +84,13 @@ public class FilterActivity extends AppCompatActivity {
      * Fall sem kallar á doFiltering í CourseCatalogService sem sækir
      * uppáhalds áfanga notandans og skilar þeim til að birta þá.
      */
-    private void favorites() {
+    private void favorites() throws IOException {
         UserService userService = new UserService();
+        String userName = getCurrentUser();
         // Þurfum að kalla hérna á userService.getFavorites einhvern veginn til að fá listann af favorites áföngum
-        ArrayList<String> favoritesList = new ArrayList<>(); // og setja það í breytuna favoritesList, þá ætti allt að vera rétt
+        ArrayList<String> favoritesList = userService.getFavorites(userName); // og setja það í breytuna favoritesList, þá ætti allt að vera rétt
         //Tímabundnir favorites áfangar
-        favoritesList.add("TÖL101G");
-        favoritesList.add("ASK032M");
+
         HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
         filterMap.put("filterByFavorites", favoritesList);
         InputStream coursedata = getResources().openRawResource(R.raw.course_data);
@@ -96,6 +102,15 @@ public class FilterActivity extends AppCompatActivity {
 
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
+    }
+
+    public String getCurrentUser() {
+        // Sækja notandann sem er skráður inn
+        sharedPref = this.getSharedPreferences(
+                getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
+        String userName = (sharedPref.getString("Notandanafn", "Default_Value"));
+
+        return userName;
     }
 
     /**
