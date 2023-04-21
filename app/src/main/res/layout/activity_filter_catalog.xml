@@ -1,71 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back2"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/filter_course_catalog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/filter_teacher_course"
-        android:layout_width="404dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_favorites"
-        android:hint="@string/course_or_teacher"/>
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/filter_favorites"
-        android:layout_width="413dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purplepink"
         android:text="@string/my_favorites"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="33dp"
+        android:layout_toRightOf="@id/textView"/>
+
+    <EditText
+        android:id="@+id/filter_teacher_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:hint="@string/course_or_teacher"
+        android:ems="10"
+        android:layout_below="@id/textView"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="40dp" />
 
     <Spinner
         android:id="@+id/filter_field"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:entries="@array/fieldFilterItems"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_teacher_course" />
+        android:layout_below="@id/filter_teacher_course"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"/>
 
     <Spinner
         android:id="@+id/filter_dept"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:entries="@array/deptFilterItems"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_field" />
+        android:layout_below="@id/filter_field"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        />
 
     <Spinner
         android:id="@+id/filter_eduLevel"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/eduFilterItems"
+        android:layout_below="@id/filter_dept"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:entries="@array/eduFilterItems"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_dept" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/semester"
+        android:textColor="@color/black"
+        android:layout_below="@id/filter_eduLevel" />
 
     <CheckBox
         android:id="@+id/filter_spring"
@@ -73,24 +86,45 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/spring"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="25dp"
+        android:layout_below="@id/textView3" />
     <CheckBox
         android:id="@+id/filter_summer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="@string/summer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_fall" />
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="25dp"
+        android:layout_below="@id/textView3"
+        android:layout_toRightOf="@id/filter_spring" />
 
     <CheckBox
         android:id="@+id/filter_fall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="@string/fall"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_spring" />
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="25dp"
+        android:layout_below="@id/textView3"
+        android:layout_toRightOf="@id/filter_summer" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:layout_marginStart="25dp"
+        android:textStyle="bold"
+        android:text="@string/language"
+        android:textColor="@color/black"
+        android:layout_below="@id/filter_spring"/>
 
     <CheckBox
         android:id="@+id/filter_IS"
@@ -98,69 +132,67 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/slenska"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="25dp"
+        android:layout_below="@id/textView4" />
 
     <CheckBox
         android:id="@+id/filter_EN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="@string/enska"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_IS" />
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="25dp"
+        android:layout_toRightOf="@id/filter_IS"
+        android:layout_below="@id/textView4"/>
 
     <CheckBox
         android:id="@+id/filter_ISEN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="@string/slenska_enska"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_EN" />
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="25dp"
+        android:layout_toRightOf="@id/filter_EN"
+        android:layout_below="@id/textView4"/>
 
-    <Button
-        android:id="@+id/filter_confirm_button"
-        android:layout_width="201dp"
-        android:layout_height="48dp"
-        android:text="@string/confirm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <Spinner
+        android:id="@+id/sortByECTS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:entries="@array/sortByECTS"
+        android:layout_below="@id/filter_IS"/>
 
     <Button
         android:id="@+id/filter_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/canvablue"
         android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.981"
-        app:layout_constraintStart_toEndOf="@+id/filter_confirm_button" />
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/sortByECTS"
+         />
 
-    <TextView
-        android:id="@+id/textView3"
+    <Button
+        android:id="@+id/filter_confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/semester"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_eduLevel" />
+        android:backgroundTint="@color/canvablue"
+        android:text="@string/confirm"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/sortByECTS"
+        android:layout_toRightOf="@id/textView"
+         />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/language"
-        app:layout_constraintStart_toStartOf="@+id/filter_IS"
-        app:layout_constraintTop_toBottomOf="@+id/filter_summer" />
 
-    <Spinner
-        android:id="@+id/sortByECTS"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_ISEN"
-        android:entries="@array/sortByECTS"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
