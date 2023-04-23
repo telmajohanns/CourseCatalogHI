@@ -40,20 +40,20 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String uName = newUsername.getText().toString();
                 String pwd = newPassword.getText().toString();
-                String pwdrt = newRetypePassword.getText().toString();
+                String pwdAgain = newRetypePassword.getText().toString();
                 boolean userExists = false;
                 if (!userExists){
-                    if (pwd.equals(pwdrt)) {
+                    if (pwd.equals(pwdAgain)) {
                         userServ.createUser(uName, pwd);
-                        Toast.makeText(SignupActivity.this, "Success, welcome", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, "Nýskráning gekk, velkomin/nn.", Toast.LENGTH_SHORT).show();
                         goBack();
                     }else{
-                        Toast.makeText(SignupActivity.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, "Lykilorð passa ekki, reyndu aftur.", Toast.LENGTH_SHORT).show();
                         newPassword.getText().clear();
                         newRetypePassword.getText().clear();
                     }
                 }else{
-                    Toast.makeText(SignupActivity.this, "Username already taken, try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Notandanafn þegar í notkun, reyndu aftur.", Toast.LENGTH_SHORT).show();
                     newUsername.getText().clear();
                     newPassword.getText().clear();
                     newRetypePassword.getText().clear();

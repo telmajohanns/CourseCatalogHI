@@ -68,7 +68,6 @@ public class UserService {
      * @throws IOException
      */
     public ArrayList<String> getFavorites(String username) throws IOException {
-        ArrayList<String> fav = netMan.getFavorites(username);
-        return fav;
+        return netMan.getFavorites(username);
     }
 }

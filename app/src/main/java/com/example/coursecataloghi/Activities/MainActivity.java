@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Græja hvað gerist þegar ýtt er á login
                 String uName = username.getText().toString();
                 String pwd = password.getText().toString();
 
