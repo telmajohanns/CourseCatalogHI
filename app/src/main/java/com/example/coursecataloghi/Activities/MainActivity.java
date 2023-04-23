@@ -12,8 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.coursecataloghi.Networking.NetworkManager;
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.UserService;
+
+import Entities.Data;
+import Entities.User;
 
 public class MainActivity extends AppCompatActivity {
 

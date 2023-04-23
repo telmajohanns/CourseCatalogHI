@@ -13,13 +13,15 @@ import android.widget.Toast;
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.UserService;
 
+import Entities.Data;
+import Entities.User;
+
 public class SignupActivity extends AppCompatActivity {
-    //Viðmótshlutir
+
     private EditText newUsername, newPassword, newRetypePassword;
     private Button signupButton;
-    private TextView goBackButton;
 
-    //Tilviksbreyta fyrir userservice
+    private TextView goBackButton;
     private UserService userServ;
 
     @Override
@@ -34,7 +36,6 @@ public class SignupActivity extends AppCompatActivity {
         goBackButton = (TextView) findViewById(R.id.btnGoBack);
         userServ = new UserService();
 
-       //Onclick listener fyrir signup takkann
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +62,6 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        //Onclick listener fyrir til baka takkann
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,11 +71,6 @@ public class SignupActivity extends AppCompatActivity {
 
 
     }
-
-    /**
-     * Fall sem sér um að færa notenda aftur yfir á innskráningar síðu eftir að hann hefur
-     * búið til nýjann aðgang eða ýtt á til baka takkann.
-     */
     private void goBack(){
         Intent switchActivityIntent = new Intent(this, MainActivity.class);
         startActivity(switchActivityIntent);
