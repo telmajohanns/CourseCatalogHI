@@ -73,15 +73,11 @@ public class NetworkManager {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    //höndla failed connection
                     e.printStackTrace();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    //höndla responsið sem kemur frá bakenda
-
-
                 }
             });
         } catch (Exception e) {
@@ -108,13 +104,11 @@ public class NetworkManager {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    //höndla failed connection
                     e.printStackTrace();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    //höndla responsið sem kemur frá bakenda
                 }
             });
         } catch (Exception e) {
