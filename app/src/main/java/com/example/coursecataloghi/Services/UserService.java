@@ -6,11 +6,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserService {
-    // Favorites
-    // Signup o.s.frv. á að fara hingað (úr mainactivity...)
-    // beiðni á
+
+    //Tilviksbreyta af Networkmanager til þess að sjá um samskipti við bakenda
     private NetworkManager netMan = new NetworkManager();
 
+    /**
+     * Fall sem sér um að senda innskráningarbeiðni á networkmanager og skilar niðurstöðunni
+     * úr því kalli til baka
+     * @param userName
+     * @param pwd
+     * @return status kóði frá http kalli
+     */
     public int login(String userName, String pwd){
         int reqCode = 0;
 
@@ -20,22 +26,32 @@ public class UserService {
         return reqCode;
     }
 
-    public void createUser(String uName, String pwd){
-        netMan.signUp(uName, pwd);
+    /**
+     * Fall til þess að senda beiðni um að stofna nýjann notenda á networkmanagerinn
+     * @param usernamename notendanafn
+     * @param pwd lykilorð
+     */
+    public void createUser(String usernamename, String pwd){
+        netMan.signUp(usernamename, pwd);
     }
 
+    /**
+     * Fall til þess að bæta áföngum við favorites lista notenda. Skilar sannleiksgildi
+     * eftir hvort það tókst að bæta áfanga við eða ekki
+     * @param username notendanafn
+     * @param courseAcro skammstöfun á áfanga, t.d. HBV601G
+     * @return boolean
+     */
     public boolean addToFavorites(String username, String courseAcro) {
         ArrayList<String> favorites = netMan.getFavorites(username);
         if (courseAcro.contains("Veldu áfanga")) {
             return false;
         }
         if (favorites.isEmpty()) {
-            System.out.println("Næ að bæta í tóman");
             netMan.addToFavorites(username, courseAcro);
             return true;
         }
         for (String acronym: favorites) {
-            System.out.println(acronym);
             if (acronym.equals(courseAcro)) {
                 return false;
             }
@@ -44,6 +60,13 @@ public class UserService {
         return true;
     }
 
+    /**
+     * Fall til þess að sækja lista af favorites áföngum í gegnum networkmanager. Skilar lista
+     * af favorites áföngum notenda
+     * @param username notendanafn
+     * @return
+     * @throws IOException
+     */
     public ArrayList<String> getFavorites(String username) throws IOException {
         ArrayList<String> fav = netMan.getFavorites(username);
         return fav;
