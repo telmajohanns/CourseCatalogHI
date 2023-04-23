@@ -11,21 +11,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.coursecataloghi.Networking.NetworkManager;
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.UserService;
 
-import Entities.Data;
-import Entities.User;
-
 public class MainActivity extends AppCompatActivity {
 
+    //Viðmótshlutir
     private EditText username, password;
     private Button loginButton;
 
     private TextView signUpButton;
+
+    //Tilviksbreyta af sharedpreference til þess að halda utan um innskráðan notenda
     private SharedPreferences sharedPref;
+    //Tilviksbreyta af userservice
     private UserService userServ;
 
     @Override
@@ -41,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
         userServ = new UserService();
 
+        //Onclick listener fyrir nýskráningar takka
         signUpButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 goToSignUp();
             }
         });
 
+        //Onclick listener fyrir innskráningar takka
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,13 +74,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
+    /**
+     * Fall til þess að færa notenda af innskráningar síðu og yfir á aðalsíðuna í appinu
+     */
     private void loggedIn(){
         Intent switchActivityIntent = new Intent(this, CourseCatalogActivity.class);
         startActivity(switchActivityIntent);
     }
 
+    /**
+     * Fall sem færir notenda af innskráningar síðu og yfir á síðu til þess að stofna aðgang
+     */
     private void goToSignUp() {
         Intent switchActivityIntent = new Intent(this, SignupActivity.class);
         startActivity(switchActivityIntent);
