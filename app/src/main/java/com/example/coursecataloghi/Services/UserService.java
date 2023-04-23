@@ -1,17 +1,9 @@
 package com.example.coursecataloghi.Services;
 
-import android.content.SharedPreferences;
-
 import com.example.coursecataloghi.Networking.NetworkManager;
-import com.example.coursecataloghi.R;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import Entities.Course;
-import Entities.Data;
-import Entities.User;
 
 public class UserService {
     // Favorites

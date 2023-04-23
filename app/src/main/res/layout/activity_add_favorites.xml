@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/breyta_m_num_f_ngum"
+        android:text="@string/change_my_courses"
         android:layout_marginTop="120dp"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -28,7 +28,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/veldu_fangann_sem_vilt_b_ta_vi_e_a_fjarl_gja_r_num_f_ngum_og_smelltu_svo_quot_b_ta_vi_quot_e_a_quot_fjarl_gja_quot"
+        android:text="@string/choose_courses_instr"
         android:textAlignment="center"
         android:textStyle="italic"
         android:textColor="@color/black"
@@ -56,7 +56,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="40dp"
-        android:text="@string/baeta_vid"
+        android:text="@string/add"
         android:paddingHorizontal="35dp"
         android:layout_below="@id/courses_drop_down"
         android:layout_toRightOf="@id/rm_favorites" />
@@ -69,7 +69,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="40dp"
-        android:text="@string/fjarlaegja"
+        android:text="@string/remove"
         android:layout_below="@id/courses_drop_down"
         android:paddingHorizontal="30dp"/>
 
@@ -80,7 +80,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="50dp"
-        android:text="@string/til_baka_kennsluskr"
+        android:text="@string/back_to_coursecatalog"
         android:layout_below="@id/rm_favorites"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/canvablue"/>

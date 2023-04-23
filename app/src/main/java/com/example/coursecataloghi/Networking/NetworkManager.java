@@ -22,8 +22,19 @@ import okhttp3.Response;
 
 public class NetworkManager {
 
+    // Tilviksbreyta fyrir response kóða þegar kallað er í bakenda
     private static int respCode;
+    // Tilviksbreyta fyrir uppáhalds áfanga notanda sem eru sóttir í bakenda
     private ArrayList<String> favorites = new ArrayList<>();
+
+
+    /**
+     * Post fall sem kallar á login fall í bakenda til að staðfesta að notandi eigi til
+     * aðgang í gagnagrunninum og að lykilorðið passi við skráð lykilorð
+     * @param username Notandanafn
+     * @param password Lykilorð
+     * @return response kóða sem segir til um hvort innskráning gekk eða ekki
+     */
     public static int login(String username, String password) {
         respCode = 0;
 
@@ -39,15 +50,12 @@ public class NetworkManager {
             Call call = client.newCall(request);
 
             call.enqueue(new Callback() {
+                // Kall á bakenda gekk ekki, villa
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
+                public void onFailure(Call call, IOException e) {e.printStackTrace();}
+                // Kall á bakenda gekk, svar komið
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    respCode = response.code();
-                }
+                public void onResponse(Call call, Response response) throws IOException {respCode = response.code();}
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -57,7 +65,15 @@ public class NetworkManager {
     }
 
 
+    /**
+     * Post fall sem kallar á signup fall í bakenda til að skrá nýjan notanda ef hann er ekki
+     * þegar til í gagnagrunninum
+     * @param username Notandanafn
+     * @param password Lykilorð
+     * @return boolean gildi sem segir til um hvort nýskráning gekk eða ekki
+     */
     public boolean signUp(String username, String password) {
+        final CountDownLatch latch = new CountDownLatch(1);
 
         String signupUrl = "http://10.0.2.2:4000/signup/" + username + "&" + password;
         RequestBody formBody = new FormBody.Builder()
@@ -71,15 +87,15 @@ public class NetworkManager {
             Call call = client.newCall(request);
 
             call.enqueue(new Callback() {
+                // Kall á bakenda gekk ekki, villa
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
+                public void onFailure(Call call, IOException e) {e.printStackTrace();}
+                // Kall á bakenda gekk, svar komið
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                }
+                public void onResponse(Call call, Response response) throws IOException {}
             });
+            latch.await(30, TimeUnit.SECONDS); // Wait for the response with a timeout (e.g., 30 seconds)
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -87,7 +103,12 @@ public class NetworkManager {
     }
 
 
-
+    /**
+     * Post fall sem kallar á favorites fall í bakenda til að bæta við áfanga í uppáhalds áfanga-
+     * lista innskráðs notanda
+     * @param username Notandanafn
+     * @param acronym Skammstöfun áfanga
+     */
     public void addToFavorites(String username, String acronym) {
         String addFavUrl = "http://10.0.2.2:4000/favorites/" + username + "&" + acronym;
         RequestBody formBody = new FormBody.Builder()
@@ -102,20 +123,24 @@ public class NetworkManager {
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
+                // Kall á bakenda gekk ekki, villa
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
+                public void onFailure(Call call, IOException e) {e.printStackTrace();}
+                // Kall á bakenda gekk, svar komið
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                }
+                public void onResponse(Call call, Response response) throws IOException {}
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * Get fall sem kallar á favorites fall í bakenda sem skilar gögnum yfir uppáhalds
+     * áfanga hjá innskráðum notanda
+     * @param username Notandanafn
+     * @return Listi af skammstöfunum á uppáhalds áföngum notanda
+     */
     public ArrayList<String> getFavorites(String username) {
         final CountDownLatch latch = new CountDownLatch(1);
         String getFavUrl = "http://10.0.2.2:4000/favorites/" + username;
@@ -124,12 +149,15 @@ public class NetworkManager {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(getFavUrl).get().build();
             client.newCall(request).enqueue(new Callback() {
+                // Kall á bakenda gekk ekki, villa
                 @Override
                 public void onFailure(Call call, IOException e) {e.printStackTrace();}
+                // Kall á bakenda gekk, svar komið
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.code()==401) { return; }
-                    // Retrieve data from backend and parse to JsonArray/JsonObject
+                    // Sækja gögn í bakenda og parse-a í JsonArray/JsonObject og bæta svo við
+                    // í favorites lista
                     String resp = response.body().string();
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.fromJson(resp, JsonElement.class);

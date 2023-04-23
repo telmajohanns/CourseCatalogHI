@@ -1,6 +1,5 @@
 package com.example.coursecataloghi.Activities;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -88,11 +87,8 @@ public class FilterActivity extends AppCompatActivity {
      */
     private void favorites() throws IOException {
         UserService userService = new UserService();
-        String userName = getCurrentUser();
-        ArrayList<String> favoritesList = userService.getFavorites(userName);
-        for(String acro: favoritesList) {
-            System.out.println("Hlutir: " + acro);
-        }
+        ArrayList<String> favoritesList = userService.getFavorites(getCurrentUser());
+
         HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
         filterMap.put("filterByFavorites", favoritesList);
         InputStream coursedata = getResources().openRawResource(R.raw.course_data);
@@ -113,9 +109,8 @@ public class FilterActivity extends AppCompatActivity {
     public String getCurrentUser() {
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
-        String userName = (sharedPref.getString("Notandanafn", "Default_Value"));
 
-        return userName;
+        return (sharedPref.getString("Notandanafn", "Default_Value"));
     }
 
     /**

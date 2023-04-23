@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,29 +22,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddFavoritesActivity extends AppCompatActivity {
-    private ArrayList<String> favoritesList = new ArrayList<>();
+
+    // Viðmótshlutir
     private Spinner courses_drop_down;
     private Button add_favorites, rm_favorites, back_to_catalog;
-    private SharedPreferences sharedPref;
 
+    // Tilviksbreyta, listi af skammstöfunum uppáhalds áfanga notandans
+    private ArrayList<String> favoritesList = new ArrayList<>();
+    // SharedPreferences hlutur til að sækja innskráðan notanda
+    private SharedPreferences sharedPref;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_favorites);
 
-
         courses_drop_down = (Spinner) findViewById(R.id.courses_drop_down);
         add_favorites = (Button) findViewById(R.id.add_favorites);
         rm_favorites = (Button) findViewById(R.id.rm_favorites);
         back_to_catalog = (Button) findViewById(R.id.back_to_catalog);
-        //rm_favorites.setVisibility(View.VISIBLE);
 
+        // Kallar á backToCatalog() sem færir notandann aftur á kennsluskrár síðuna
         back_to_catalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 backToCatalog();
             }
         });
+
+        // Bæta við áfanga í eigin áfanga
         add_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +60,8 @@ public class AddFavoritesActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Fjarlægja áfanga úr eigin áföngum, virkni ennþá í vinnslu
         rm_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +70,9 @@ public class AddFavoritesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Fall sem færir notandann aftur á kennsluskrár síðuna
+     */
     private void backToCatalog() {
         HashMap<String, ArrayList<String>> filterMap = new HashMap<>();
         InputStream coursedata = getResources().openRawResource(R.raw.course_data);
@@ -75,54 +86,64 @@ public class AddFavoritesActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
 
+    /**
+     * Fall sem sækir innskráðan notanda í SharedPreferences
+     * @return Notandanafn innskráðs notanda
+     */
     public String getCurrentUser() {
         // Sækja notandann sem er skráður inn
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
-        String userName = (sharedPref.getString("Notandanafn", "Default_Value"));
 
-        return userName;
+        return (sharedPref.getString("Notandanafn", "Default_Value"));
     }
 
-    private boolean addFavorites(String courseAcro) throws IOException {
+    /**
+     * Fall sem bætir áfanga í uppáhalds lista notanda ef hann var ekki þegar til í listanum
+     * og endurræsir AddFavorites síðunni
+     * @param courseAcro Skammstöfun áfanga sem var valið að bæta við
+     * @throws IOException
+     */
+    private void addFavorites(String courseAcro) throws IOException {
         UserService userService = new UserService();
-        String userName = getCurrentUser();
-        System.out.println(userName);
-        boolean addCourse = userService.addToFavorites(userName, courseAcro);
+
+        boolean addCourse = userService.addToFavorites(getCurrentUser(), courseAcro);
         if (addCourse) {
+            Toast.makeText(AddFavoritesActivity.this, "Áfanga bætt við á lista", Toast.LENGTH_SHORT).show();
             Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
             startActivity(switchActivityIntent);
-            return true;
         }
         else {
+            Toast.makeText(AddFavoritesActivity.this, "Áfangi þegar til á lista og var því ekki bætt við", Toast.LENGTH_SHORT).show();
             Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
             startActivity(switchActivityIntent);
-            return false;
         }
 
     }
 
-    private boolean rmFavorites(String courseAcro) {
-        String userName = getCurrentUser();
-        System.out.println(userName);
-        if (favoritesList.isEmpty()) {
-            //Skilaboð um að það gekk ekki því listinn er tómur
-            return false;
-        }
-        // Hér þurfum við að fjarlægja courseAcro strenginn úr
-        // favorites listanum hjá notandanum
+    /**
+     * Fall sem fjarlægjir áfanga af uppáhalds lista notanda ef hann var þegar til í listanum
+     * og endurræsir AddFavorites síðunni
+     * Virkni enn í vinnslu
+     * @param courseAcro Skammstöfun áfanga sem á að fjarlægja
+     */
+    private void rmFavorites(String courseAcro) {
 
-        // Hér ætti að vera notað listann frá notandanum
+        UserService userService = new UserService();
 
-        for (String string: favoritesList) {
-            if (string.equals(courseAcro)) {
-                favoritesList.remove(string);
-                Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
-                startActivity(switchActivityIntent);
-                return true;
-            }
+        boolean rmCourse = false; //userService.rmFavorites(getCurrentUser(), courseAcro);
+        if (rmCourse) {
+            // Vantar að útfæra rmFavorites í userService, NetworkManager og bakenda
+            // Skilaboð um að það gekk að fjarlægja áfanga úr lista
+            //Toast.makeText(AddFavoritesActivity.this, "Áfangi fjarlægður af lista", Toast.LENGTH_SHORT).show();
+            Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
+            startActivity(switchActivityIntent);
         }
-        // Skilaboð um villu
-        return false;
+        else {
+            //Skilaboð um að það gekk ekki því áfangi var ekki til í lista
+            //Toast.makeText(AddFavoritesActivity.this, "Áfangi fannst ekki í lista og var því ekki fjarlægður", Toast.LENGTH_SHORT).show();
+            Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
+            startActivity(switchActivityIntent);
+        }
     }
 }

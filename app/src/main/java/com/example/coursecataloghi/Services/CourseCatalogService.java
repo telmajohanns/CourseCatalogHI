@@ -81,11 +81,12 @@ public class CourseCatalogService {
         ArrayList<Course> temp = allCourses;
         filteredCatalog = temp;
 
-        // Lúppum í gegnum Hashmap-ið og filterum eftir öllu sem var sett inn
-        // Key er fallakallið, value eru síurnar sjálfar
+        // Lúppum í gegnum Hashmap-ið og síum eftir öllu sem var sett inn af notandanum
+        // Key er nafnið á fallinu sem verður kallað í, value eru síurnar sjálfar
         for(Map.Entry<String, ArrayList<String>> eachFilter: filterMap.entrySet()) {
             String key = eachFilter.getKey();
             ArrayList<String> value = eachFilter.getValue();
+            // Kalla á filterByFavorites ef það var valið
             if (key.equals("filterByFavorites")) {filteredCatalog = filterByFavorites(value); }
             else {
                 // Kalla á rétt föll eftir því hvaða sía var sett á
@@ -97,6 +98,7 @@ public class CourseCatalogService {
                 if (key.equals("filterByLanguage")) { filteredCatalog = filterByLanguage(value);}
 
             }
+            // Kalla á sortByECTS ef valið var að raða lista í hækkandi eða lækkandi röð ECTS fjölda
             if (key.equals("sortByECTS")) { filteredCatalog = sortByECTS(value); }
         }
         return filteredCatalog;
@@ -200,6 +202,11 @@ public class CourseCatalogService {
         return expandableDetailList;
     }
 
+    /**
+     * Fall sem síar listann eftir uppáhalds áföngum notandans sem er skráður inn
+     * @param favoritesList Listi af skammstöfunum uppáhalds áfanga notandans
+     * @return Listi af Course hlutum sem skal birta í kennsluskrá
+     */
     private static ArrayList<Course> filterByFavorites(ArrayList<String> favoritesList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera
         ArrayList<Course> temp = new ArrayList<>();
@@ -215,7 +222,7 @@ public class CourseCatalogService {
     /**
      * Fall sem síar listann á streng úr textareit
      * @param filterList Sía
-     * @return Síuðum lista
+     * @return Síuðum lista af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> filterByText(ArrayList<String> filterList) {
         // Bý til temp lista til að geta loop-að í gegnum
@@ -239,7 +246,7 @@ public class CourseCatalogService {
     /**
      * Fall sem síar listann eftir önn, Checkbox
      * @param filterList Sía, valdar annir í checkbox
-     * @return Síuðum lista
+     * @return Síuðum lista af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> filterBySemester(ArrayList<String> filterList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera
@@ -255,7 +262,7 @@ public class CourseCatalogService {
     /**
      * Fall sem síar listann eftir námstigi
      * @param filterList Sía, valið námstig
-     * @return Síuðum lista
+     * @return Síuðum lista af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> filterByEduLevel(ArrayList<String> filterList) {
         // Bý til temp lista til að geta loop-að í gegnum
@@ -274,7 +281,7 @@ public class CourseCatalogService {
     /**
      * Fall sem síar listann eftir Sviði
      * @param filterList Sía, valið svið
-     * @return Síuðum lista
+     * @return Síuðum lista af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> filterByField(ArrayList<String> filterList) {
         String filter = filterList.get(0);
@@ -294,7 +301,7 @@ public class CourseCatalogService {
     /**
      * Fall sem síar listann eftir deild
      * @param filterList Sía, valin deild
-     * @return Síuðum lista
+     * @return Síuðum lista af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> filterByDept(ArrayList<String> filterList) {
         String filter = filterList.get(0);
@@ -314,7 +321,7 @@ public class CourseCatalogService {
      * Fall sem raðar listanum eftir fjölda ECTS, annað hvort í hækkandi eða lækkandi röð
      * eftir hvað notandinn valdi
      * @param sortList Val notandans, hvort það væri í hækkandi eða lækkandi röð
-     * @return
+     * @return Raðaður listi af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> sortByECTS(ArrayList<String> sortList) {
         String sort = sortList.get(0);
@@ -328,7 +335,7 @@ public class CourseCatalogService {
     /**
      * Fall sem síar listann eftir tungumáli
      * @param filterList Sía, valin tungumála checkbox
-     * @return Síuðum lista
+     * @return Síuðum lista af Course hlutum sem skal birta í kennsluskrá
      */
     private static ArrayList<Course> filterByLanguage(ArrayList<String> filterList) {
         // Bý til tóman lista til að bæta áföngum í sem passa við filtera

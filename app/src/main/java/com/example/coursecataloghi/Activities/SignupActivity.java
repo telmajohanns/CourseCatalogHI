@@ -13,9 +13,6 @@ import android.widget.Toast;
 import com.example.coursecataloghi.R;
 import com.example.coursecataloghi.Services.UserService;
 
-import Entities.Data;
-import Entities.User;
-
 public class SignupActivity extends AppCompatActivity {
 
     private EditText newUsername, newPassword, newRetypePassword;

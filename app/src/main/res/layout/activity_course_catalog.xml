@@ -43,7 +43,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginStart="5dp"
             android:backgroundTint="@color/purplepink"
-            android:text="@string/velja_m_na_fanga" />
+            android:text="@string/choose_my_courses" />
         <Button
             android:id="@+id/logout_button"
             android:layout_width="match_parent"

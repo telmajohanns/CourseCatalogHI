@@ -10,7 +10,7 @@
     <string name="don_t_have_an_account">Ekki með aðgang?</string>
     <string name="confirm_password">Staðfesta lykilorð</string>
     <string name="sign_in">Skrá inn</string>
-    <string name="filter">Sía áfanga</string>
+    <string name="filter">Sía kennsluskrá</string>
     <string name="semester">Önn</string>
     <string name="filter_course_catalog">Sía kennsluskrá</string>
     <string name="my_favorites">Mínir áfangar</string>
@@ -22,14 +22,14 @@
     <string name="cancel">Hætta við</string>
     <string name="language">Tungumál</string>
     <string name="course_or_teacher">Áfangi eða kennari</string>
-    <string name="slenska_enska">Íslenska/enska</string>
-    <string name="enska">Enska</string>
-    <string name="slenska">Íslenska</string>
-    <string name="velja_m_na_fanga">Velja mína áfanga</string>
-    <string name="breyta_m_num_f_ngum">Breyta mínum áföngum</string>
-    <string name="veldu_fangann_sem_vilt_b_ta_vi_e_a_fjarl_gja_r_num_f_ngum_og_smelltu_svo_quot_b_ta_vi_quot_e_a_quot_fjarl_gja_quot">Veldu áfangann sem þú vilt bæta við eða fjarlægja úr þínum áföngum, og smelltu svo á \"Bæta við\" eða \"Fjarlægja\"</string>
-    <string name="til_baka_kennsluskr">Til baka í kennsluskrá</string>
-    <string name="fjarlaegja">Fjarlægja</string>
-    <string name="baeta_vid">Bæta við</string>
-    <string name="nyskraning">Nýskráning</string>
+    <string name="is_en">Íslenska/enska</string>
+    <string name="en">Enska</string>
+    <string name="is">Íslenska</string>
+    <string name="choose_my_courses">Velja mína áfanga</string>
+    <string name="change_my_courses">Breyta mínum áföngum</string>
+    <string name="choose_courses_instr">Veldu áfangann sem þú vilt bæta við eða fjarlægja úr þínum áföngum, og smelltu svo á \"Bæta við\" eða \"Fjarlægja\"</string>
+    <string name="back_to_coursecatalog">Til baka í kennsluskrá</string>
+    <string name="remove">Fjarlægja</string>
+    <string name="add">Bæta við</string>
+    <string name="create_account">Nýskráning</string>
 </resources>

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,9 +35,6 @@ public class CourseCatalogActivity extends AppCompatActivity {
     // Hashmap þar sem lykillinn er titillinn á hlutnum/áfanganum og gildið er listi af strengjum
     // sem eru nánari upplýsingar um hlutinn/áfangann og birtast þegar hann er opnaður í listanum
     private HashMap<String, List<String>> expandableDetailList;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +65,7 @@ public class CourseCatalogActivity extends AppCompatActivity {
             }
         });
 
+        // Kallar á addToFavorites() sem færir notandann á AddFavoritesActivity
         set_my_courses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +99,10 @@ public class CourseCatalogActivity extends AppCompatActivity {
         Intent switchActivityIntent = new Intent(this, FilterActivity.class);
         startActivity(switchActivityIntent);
     }
+
+    /**
+     * Fall sem færir notandann yfir á AddFavorites síðuna til að breyta sínum áföngum
+     */
     private void addToFavorites() {
         Intent switchActivityIntent = new Intent(this, AddFavoritesActivity.class);
         startActivity(switchActivityIntent);
