@@ -29,7 +29,9 @@ public class FilterActivity extends AppCompatActivity {
     private CheckBox filter_EN, filter_IS, filter_ISEN, filter_fall, filter_summer, filter_spring;
     private Spinner filter_eduLevel, filter_dept, filter_field, sortByECTS;
 
+    // SharedPreferences hlutur til að sækja innskráðan notanda
     private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class FilterActivity extends AppCompatActivity {
         filter_field = (Spinner) findViewById(R.id.filter_field);
         sortByECTS = (Spinner) findViewById(R.id.sortByECTS);
 
-        // Staðfest síu
+        // Staðfesta síu onClickListener
         filter_confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +60,7 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-        // Hætt við síu
+        // Hætt við síu onClickListener
         filter_cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +68,7 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-        // Valið að sía eftir eigin áföngum
+        // Valið að sía eftir eigin áföngum onClickListener
         filter_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,8 +89,7 @@ public class FilterActivity extends AppCompatActivity {
     private void favorites() throws IOException {
         UserService userService = new UserService();
         String userName = getCurrentUser();
-        // Þurfum að kalla hérna á userService.getFavorites einhvern veginn til að fá listann af favorites áföngum
-        ArrayList<String> favoritesList = userService.getFavorites(userName); // og setja það í breytuna favoritesList, þá ætti allt að vera rétt
+        ArrayList<String> favoritesList = userService.getFavorites(userName);
         for(String acro: favoritesList) {
             System.out.println("Hlutir: " + acro);
         }
@@ -105,8 +106,11 @@ public class FilterActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
 
+    /**
+     * Fall sem sækir innskráðan notanda í SharedPreferences
+     * @return Notandanafn innskráðs notanda
+     */
     public String getCurrentUser() {
-        // Sækja notandann sem er skráður inn
         sharedPref = this.getSharedPreferences(
                 getString(R.string.sharedpreffile), Context.MODE_PRIVATE);
         String userName = (sharedPref.getString("Notandanafn", "Default_Value"));

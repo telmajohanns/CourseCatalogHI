@@ -1,9 +1,5 @@
 package com.example.coursecataloghi.Networking;
 
-import android.app.AlertDialog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,13 +7,10 @@ import com.google.gson.JsonObject;
 
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import Entities.Data;
-import Entities.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -48,7 +41,6 @@ public class NetworkManager {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    //höndla failed connection
                     e.printStackTrace();
                 }
 
@@ -133,48 +125,30 @@ public class NetworkManager {
     public ArrayList<String> getFavorites(String username) {
         final CountDownLatch latch = new CountDownLatch(1);
         String getFavUrl = "http://10.0.2.2:4000/favorites/" + username;
-        /*RequestBody formBody = new FormBody.Builder()
-                .add("username", username)
-                .build();*/
 
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(getFavUrl).get().build();
-
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
+            client.newCall(request).enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    //höndla failed connection
-                    e.printStackTrace();
-                }
-
+                public void onFailure(Call call, IOException e) {e.printStackTrace();}
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    if (response.code()==401) {
-                        return;
-                    }
-
-                    //höndla responsið sem kemur frá bakenda
-                    String svar = response.body().string();
-                    //System.out.println("SVAR: " + svar + "code: " + response.code());
-                    //System.out.println(response);
-
-                    //JSONObject jsonObject = new JSONObject(svar);
+                    if (response.code()==401) { return; }
+                    // Retrieve data from backend and parse to JsonArray/JsonObject
+                    String resp = response.body().string();
                     Gson gson = new Gson();
-                    JsonElement jsonElement = gson.fromJson(svar, JsonElement.class);
+                    JsonElement jsonElement = gson.fromJson(resp, JsonElement.class);
                     if (jsonElement.isJsonArray()) {
                         System.out.println(jsonElement.isJsonArray());
                         JsonArray jsonArray = jsonElement.getAsJsonArray();
                         for(JsonElement element: jsonArray) {
                             JsonObject jsonObject = element.getAsJsonObject();
-                            System.out.println("Acro: " + jsonObject.get("acronym").getAsString());
                             favorites.add(jsonObject.get("acronym").getAsString());
                         }
                     }
                     if(jsonElement.isJsonObject()) {
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
-                        System.out.println("Acro: " + jsonObject.get("acronym").getAsString());
                         favorites.add(jsonObject.get("acronym").getAsString());
                     }
                     latch.countDown();

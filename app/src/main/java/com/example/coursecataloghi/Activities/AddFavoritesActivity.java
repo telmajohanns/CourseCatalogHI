@@ -36,6 +36,7 @@ public class AddFavoritesActivity extends AppCompatActivity {
         add_favorites = (Button) findViewById(R.id.add_favorites);
         rm_favorites = (Button) findViewById(R.id.rm_favorites);
         back_to_catalog = (Button) findViewById(R.id.back_to_catalog);
+        //rm_favorites.setVisibility(View.VISIBLE);
 
         back_to_catalog.setOnClickListener(new View.OnClickListener() {
             @Override
