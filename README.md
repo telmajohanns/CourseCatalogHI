@@ -16,5 +16,12 @@ DB_DATABASE= //Nafnið á gagnagrunninum sem þú bjóst til
 ```javascript
 npm install // Til þess að ná í alla þá pakka sem forritið þarf til þess að keyra
 npm run setup // Til þess að búa til töflur í gagnagrunninn
-npm run dev // Til þess að hafa verkefnið keyrt í bakgrunn meðan appið er notað
+npm run dev // Til þess að hafa verkefnið keyrt í bakgrunn meðan appið er notað (nodemon)
+eða npm run start // Til þess að fá verkerfnið til að keyra einu sinni 
 ```
+
+---
+## Verkefnið er unnið af
+- Herbert Vilhjálmsson - hev12@hi.is
+- Steinunn María Egilsdóttir - sme15@hi.is
+- Telma Jóhannsdóttir - tej@hi.is
